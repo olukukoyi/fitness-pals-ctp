@@ -16,3 +16,11 @@ model User {
   name     String
   password String
 }
+
+model Workout {
+  workoutId String @id @unique @default(uuid())
+  type      String
+  bodyPart  String
+  Reps      Int
+  Set       Int
+}

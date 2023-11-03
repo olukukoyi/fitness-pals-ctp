@@ -1,15 +1,14 @@
 const jwt = require("jsonwebtoken");
-const { PrismaClient } = require("@prisma/client");
-
 require("dotenv").config();
 
-const prisma = new PrismaClient();
+const prisma = require("../prismadb");
 
 const userLogin = async (req, res) => {
   // Auth User Above
   try {
     const email = req.body.email;
     const password = req.body.password;
+    console.log("pw: ", password);
 
     const existingUser = await prisma.user.findUnique({
       where: { email: email },
@@ -17,11 +16,12 @@ const userLogin = async (req, res) => {
 
     if (!existingUser) {
       console.log("does not exist");
-      res.json({ message: "email is wrong" });
+      return res.json({ message: "email is wrong" });
     }
 
-    if (!existingUser.password === password) {
-      res.json({ error: "credentials error, plz check" });
+    if (existingUser.password !== password) {
+      console.log("does not match");
+      return res.json({ error: "password does not match" });
     } else {
       const accessToken = jwt.sign(
         existingUser,

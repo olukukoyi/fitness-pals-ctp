@@ -3,7 +3,7 @@ require("dotenv").config();
 
 const express = require("express");
 const userRoutes = require("./users/route");
-const postRoutes = require("./post/route");
+const workoutRoutes = require("../server/workout/route");
 
 const app = express();
 app.use(express.json());
@@ -43,7 +43,4 @@ app.get("/user/login", userRoutes.userLogin);
 app.get("/user/signup", userRoutes.signUp);
 
 // post
-app.get("/post", authToken, postRoutes.getPost);
-app.get("/post/test", (req, res) => {
-  console.log(req.user);
-});
+app.get("/workout", authToken, workoutRoutes.getWorkout);
