@@ -23,17 +23,20 @@ app.listen(PORT, () => {
 app.post("/auth/login", authRoutes.userLogin);
 app.post("/auth/signup", authRoutes.userSignUp);
 app.get("/auth/logout", authRoutes.userLogout);
+// ------
 
 // user routes
 app.get("/user/:id", userRoutes.getUserDetails);
+// ------
 
 // workouts
 app.get("/workout/:id", middleware, workoutRoutes.getUserWorkout);
+// ------
 
 //posts
 app.get("/posts/", middleware, postRoutes.getAllPost);
 app.get("/posts/beginner", middleware, postRoutes.getBeginnerPost);
-app.get("/posts/a,odvanced", middleware, postRoutes.getAdvancesDiscussionPost);
+app.get("/posts/advanced", middleware, postRoutes.getAdvancesDiscussionPost);
 app.get("/posts/story-time", middleware, postRoutes.getStoryTimePost);
 app.get("/posts/progress", middleware, postRoutes.getProgressPost);
 app.get("/posts/off-topic", middleware, postRoutes.getOffTopicPosts);
