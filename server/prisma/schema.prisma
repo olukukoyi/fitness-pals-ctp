@@ -18,6 +18,7 @@ model User {
   workouts     Workout[]
   Measurements Measurements?
   Posts        Post[]
+  Comments     Comment[]
 }
 
 model Workout {
@@ -46,10 +47,20 @@ model Diary {
 }
 
 model Post {
-  id      String @id @default(uuid())
-  title   String
-  body    String
-  topic   String
-  User    User?  @relation(fields: [ownerId], references: [userId])
-  ownerId String
+  id       String    @id @default(uuid())
+  title    String
+  body     String
+  topic    String
+  User     User?     @relation(fields: [ownerId], references: [userId])
+  ownerId  String
+  Comments Comment[]
+}
+
+model Comment {
+  id      String  @id @default(uuid())
+  content String
+  User    User?   @relation(fields: [ownerId], references: [userId])
+  ownerId String?
+  Post    Post?   @relation(fields: [postId], references: [id])
+  postId  String?
 }
