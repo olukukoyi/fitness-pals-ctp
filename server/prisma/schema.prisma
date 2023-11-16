@@ -11,20 +11,45 @@ datasource db {
 }
 
 model User {
-  userId           String  @id @unique @default(uuid())
-  email            String  @unique
-  name             String
-  password         String
-  workout          Workout @relation(fields: [workoutWorkoutId], references: [workoutId])
-  gen              String
-  workoutWorkoutId String  @unique
+  userId       String        @id @unique @default(uuid())
+  email        String        @unique
+  name         String
+  password     String
+  workouts     Workout[]
+  Measurements Measurements?
+  Posts        Post[]
 }
 
 model Workout {
-  workoutId String @id @unique @default(uuid())
+  workoutId String  @id @unique @default(uuid())
   type      String
   bodyPart  String
   Reps      Int
   Set       Int
-  User      User?
+  User      User?   @relation(fields: [ownerId], references: [userId])
+  ownerId   String?
+}
+
+model Measurements {
+  id         String @id @default(uuid())
+  height     Int
+  bodyweight Int
+  wingSpan   Int
+  bicepSize  Int
+  quadSize   Int
+  user       User   @relation(fields: [userId], references: [userId])
+  userId     String @unique
+}
+
+model Diary {
+  id String @id @unique @default(uuid())
+}
+
+model Post {
+  id      String @id @default(uuid())
+  title   String
+  body    String
+  topic   String
+  User    User?  @relation(fields: [ownerId], references: [userId])
+  ownerId String
 }
