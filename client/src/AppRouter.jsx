@@ -1,6 +1,7 @@
 import { Route, Routes, Link } from "react-router-dom";
 
 import NotFound from "./components/NotFound";
+import Diary from "./components/Diary";
 
 function AppRouter() {
   return (
@@ -16,7 +17,7 @@ function AppRouter() {
       </header>
       <Routes>
         <Route path="/" element={"home component"}/>
-        <Route path="/diary" element={"diary component"}/> 
+        <Route path="/diary" element={<Diary />}/> 
         <Route path="/dashboard" element={"dashboard component"}/>
         <Route path="/measure" element={"measure component"}/> 
         <Route path="*" element={<NotFound />}/>
