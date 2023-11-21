@@ -1,4 +1,7 @@
 import React from 'react'
+import pic1 from './assets/pic1.jpg'
+import pic2 from './assets/pic2.jpg'
+import pic3 from './assets/pic3.jpg'
 
 function Home() {
   return (
@@ -14,10 +17,10 @@ function Home() {
         </div>
       </div>
       {/* Need to add photos for each card */}
-      <div className="flex flex-row justify-evenly pt-10">
+      <div className="flex flex-row justify-evenly py-10">
 
-        <div className="card w-96 bg-base-100 shadow-xl">
-          <figure><img src="" alt="Calorie Tracker" /></figure>
+        <div className="card w-96 bg-base-200 shadow-x1">
+          <figure><img src={pic1} alt="Calorie Tracker" /></figure>
           <div className="card-body">
             <h2 className="card-title">Calorie Tracker</h2>
             <p>Check your current calorie intake and calorie goals!</p>
@@ -27,8 +30,8 @@ function Home() {
           </div>
         </div>
 
-        <div className="card w-96 bg-base-100 shadow-xl">
-          <figure><img src="" alt="Diary" /></figure>
+        <div className="card w-96 bg-base-200 shadow-xl">
+          <figure><img src={pic2} alt="Diary" /></figure>
           <div className="card-body">
             <h2 className="card-title">Diary</h2>
             <p>Check your personalized notes on your progress and calorie intake!</p>
@@ -38,8 +41,8 @@ function Home() {
           </div>
         </div>
 
-        <div className="card w-96 bg-base-100 shadow-xl">
-          <figure><img src="" alt="Blog" /></figure>
+        <div className="card w-96 bg-base-200 shadow-xl">
+          <figure><img src={pic3} alt="Blog" /></figure>
           <div className="card-body">
             <h2 className="card-title">Blog</h2>
             <p>Chat and discuss gym related topics with other Gym goers!</p>
