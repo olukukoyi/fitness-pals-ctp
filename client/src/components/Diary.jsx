@@ -67,7 +67,8 @@ function MealTable({ title, foodArr, userFoodArr, setUserFoodArr }) {
                     cal={foodObj.calories} 
                     carb={Math.floor((foodObj.carb*4 / (foodObj.calories/foodObj.servings)) * 100)} 
                     fat={Math.floor((foodObj.fat*9 / (foodObj.calories/foodObj.servings)) * 100)} 
-                    protein={Math.floor((foodObj.protein*4 / (foodObj.calories/foodObj.servings)) * 100)} 
+                    protein={Math.floor((foodObj.protein*4 / (foodObj.calories/foodObj.servings)) * 100)}
+                    servings={foodObj.servings} 
                     key={index} 
                 />
             ))}
@@ -79,11 +80,16 @@ function MealTable({ title, foodArr, userFoodArr, setUserFoodArr }) {
     )
 }
 
-function FoodTableItem({ name, id, cal, carb, protein, fat}) {
+function FoodTableItem({ name, id, cal, carb, protein, fat, servings}) {
     return (
         <>
             <div className="divider m-0"></div>
-            <li className="" onClick={() => document.getElementById(`my_modal_${id}`).showModal()}>{name} - {id} - {cal}</li>
+            <li className="" onClick={() => document.getElementById(`my_modal_${id}`).showModal()}>
+                <div className="flex justify-between">
+                    <div>{name} <br /> {servings} Serving{servings > 1 ? "s" : ""}</div>
+                    <div>{cal}</div>
+                </div>
+            </li>
             <dialog id={`my_modal_${id}`} className="modal">
                 <div className="modal-box h-screen">
                     <form method="dialog">
@@ -149,7 +155,7 @@ function AddCustomFoodModal({title, userFoodArr, setUserFoodArr}){
         }
     
         const newUserFoodArr = [...userFoodArr];
-        const newFood = {...foodInfo, calories: cal*foodInfo.servings, id: Math.floor(Math.random() * 9999)};
+        const newFood = {...foodInfo, calories: cal*foodInfo.servings, id: `${Math.floor(Math.random() * 9999)}`};
         if (!newUserFoodArr[mealIndex]) {
             newUserFoodArr[mealIndex] = []; // Initialize the array if it doesn't exist
         }
@@ -239,6 +245,7 @@ FoodTableItem.propTypes = {
     carb: PropTypes.number.isRequired,
     fat: PropTypes.number.isRequired,
     protein: PropTypes.number.isRequired,
+    servings: PropTypes.number.isRequired,
 }
 
 export default Diary;
