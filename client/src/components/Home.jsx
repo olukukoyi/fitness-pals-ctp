@@ -17,9 +17,9 @@ function Home() {
         </div>
       </div>
       {/* Need to add photos for each card */}
-      <div className="flex flex-row justify-evenly py-10">
+      <div className="flex flex-row flex-wrap justify-evenly py-10">
 
-        <div className="card w-96 bg-base-200 shadow-x1">
+        <div className="card m-5 w-96 bg-base-200 shadow-x1">
           <figure><img src={pic1} alt="Calorie Tracker" /></figure>
           <div className="card-body">
             <h2 className="card-title">Calorie Tracker</h2>
@@ -30,7 +30,7 @@ function Home() {
           </div>
         </div>
 
-        <div className="card w-96 bg-base-200 shadow-xl">
+        <div className="card m-5 w-96 bg-base-200 shadow-xl">
           <figure><img src={pic2} alt="Diary" /></figure>
           <div className="card-body">
             <h2 className="card-title">Diary</h2>
@@ -41,7 +41,7 @@ function Home() {
           </div>
         </div>
 
-        <div className="card w-96 bg-base-200 shadow-xl">
+        <div className="card m-5 w-96 bg-base-200 shadow-xl">
           <figure><img src={pic3} alt="Blog" /></figure>
           <div className="card-body">
             <h2 className="card-title">Blog</h2>
