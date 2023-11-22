@@ -1,18 +1,11 @@
-import { Route, Routes, Link } from "react-router-dom";
+import { Route, Routes} from "react-router-dom";
 import Home from "./components/Home"
+import Header from "./components/Header"
 
 function AppRouter() {
   return (
     <>
-      <header>
-        this is a header (it'll stay static)
-        <div className="btn-group">
-          <Link to={"/"} className="btn">Home</Link>
-          <Link to={"/diary"} className="btn">Diary</Link>
-          <Link to={"/dashboard"} className="btn">Dashboard</Link>
-          <Link to={"/measure"} className="btn">Measure</Link>
-        </div>
-      </header>
+      <Header />
       <Routes>
         <Route path="/" element={<Home/>}/>
         <Route path="/diary" element={"diary component"}/> 
