@@ -65,9 +65,9 @@ function MealTable({ title, foodArr, userFoodArr, setUserFoodArr }) {
                     name={foodObj.name} 
                     id={foodObj.id} 
                     cal={foodObj.calories} 
-                    carb={Math.floor((foodObj.carb*4 / (foodObj.calories/foodObj.servings)) * 100)} 
-                    fat={Math.floor((foodObj.fat*9 / (foodObj.calories/foodObj.servings)) * 100)} 
-                    protein={Math.floor((foodObj.protein*4 / (foodObj.calories/foodObj.servings)) * 100)}
+                    carb={foodObj.calories === 0 ? 0 : Math.floor((foodObj.carb*4 / (foodObj.calories/foodObj.servings)) * 100)} 
+                    fat={foodObj.calories === 0 ? 0 : Math.floor((foodObj.fat*9 / (foodObj.calories/foodObj.servings)) * 100)} 
+                    protein={foodObj.calories === 0 ? 0 : Math.floor((foodObj.protein*4 / (foodObj.calories/foodObj.servings)) * 100)}
                     servings={foodObj.servings} 
                     key={index} 
                 />
@@ -214,9 +214,9 @@ function AddCustomFoodModal({title, userFoodArr, setUserFoodArr}){
                 <button className="btn" onClick={(e) => {addFood(e, foodInfo, title)}}>Add to {title}</button>
             </form>
             <div className="grid grid-cols-2 place-items-center sm:flex sm:justify-evenly">
-                <div className="radial-progress text-xs text-center text-rose-500" style={{ "--value": Math.floor((foodInfo.carb*4 / cal) * 100)}} role="progressbar">Carbs <br /> {Math.floor((foodInfo.carb*4 / cal) * 100)} %</div>
-                <div className="radial-progress text-xs text-center text-teal-500" style={{ "--value": Math.floor((foodInfo.fat*9 / cal) * 100) }} role="progressbar">Fat <br /> {Math.floor((foodInfo.fat*9 / cal) * 100)} %</div> 
-                <div className="radial-progress text-xs text-center text-cyan-500" style={{ "--value": Math.floor((foodInfo.protein*4 / cal) * 100) }} role="progressbar">Protein <br /> {Math.floor((foodInfo.protein*4 / cal) * 100)} %</div>
+                <div className="radial-progress text-xs text-center text-rose-500" style={{ "--value": cal === 0 ? 0 : Math.floor((foodInfo.carb*4 / cal) * 100) }} role="progressbar">Carbs <br /> {cal === 0 ? 0 : Math.floor((foodInfo.carb*4 / cal) * 100)} %</div>
+                <div className="radial-progress text-xs text-center text-teal-500" style={{ "--value": cal === 0 ? 0 : Math.floor((foodInfo.fat*9 / cal) * 100) }} role="progressbar">Fat <br /> {cal === 0 ? 0 : Math.floor((foodInfo.fat*9 / cal) * 100)} %</div> 
+                <div className="radial-progress text-xs text-center text-cyan-500" style={{ "--value": cal === 0 ? 0 : Math.floor((foodInfo.protein*4 / cal) * 100) }} role="progressbar">Protein <br /> {cal === 0 ? 0 : Math.floor((foodInfo.protein*4 / cal) * 100)} %</div>
 
                 <div className="radial-progress text-xs text-center " style={{ "--value": 100 }} role="progressbar">Calories <br /> {foodInfo.servings > 0 ? cal * foodInfo.servings : cal} </div> 
             </div>
