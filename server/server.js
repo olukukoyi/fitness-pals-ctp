@@ -1,7 +1,8 @@
 require("dotenv").config();
 const express = require("express");
-var cookieParser = require("cookie-parser");
-const fetch = require("node-fetch");
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
+const bodyParser = require("body-parser");
 
 const userRoutes = require("./users/route");
 const workoutRoutes = require("../server/workout/route");
@@ -11,6 +12,14 @@ const postRoutes = require("./post/route");
 
 const app = express();
 app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(
+  cors({
+    credentials: true,
+    methods: ["GET", "POST"],
+    origin: "http://127.0.0.1:5173",
+  })
+);
 app.use(cookieParser());
 
 const PORT = 8000;
@@ -34,10 +43,12 @@ app.get("/workout/:id", middleware, workoutRoutes.getUserWorkout);
 // ------
 
 //posts
-app.get("/posts/", middleware, postRoutes.getAllPost);
+// app.get("/posts/", middleware, postRoutes.getAllPost);
+app.get("/posts/", postRoutes.getAllPost);
 app.get("/posts/beginner", middleware, postRoutes.getBeginnerPost);
 app.get("/posts/advanced", middleware, postRoutes.getAdvancesDiscussionPost);
 app.get("/posts/story-time", middleware, postRoutes.getStoryTimePost);
 app.get("/posts/progress", middleware, postRoutes.getProgressPost);
 app.get("/posts/off-topic", middleware, postRoutes.getOffTopicPosts);
 app.post("/posts/add-post", middleware, postRoutes.createPost);
+// ------
