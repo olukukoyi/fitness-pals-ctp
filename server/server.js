@@ -25,7 +25,7 @@ app.use(cookieParser());
 const PORT = 8000;
 
 app.listen(PORT, () => {
-  console.log("running on port 8000");
+  console.log(`running on port ${PORT}`);
 });
 
 // auth routes

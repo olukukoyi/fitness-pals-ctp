@@ -13,7 +13,7 @@ function Test() {
       },
       credentials: "include",
       body: JSON.stringify({
-        email: "test",
+        email: "jim@gmail.com",
         password: "password",
       }),
     });
@@ -39,8 +39,9 @@ function Test() {
     <div>
       {currentUser !== null ? (
         <div>
-          <h1>Name : {currentUser?.name}</h1>
-          <h2>Id : {currentUser?.userId}</h2>
+          <h1>Name : {currentUser?.user.name}</h1>
+          <h1>Email : {currentUser?.user.email}</h1>
+          <h2>Id : {currentUser?.user.userId}</h2>
           <button onClick={LogOut}>Log out</button>
         </div>
       ) : (
