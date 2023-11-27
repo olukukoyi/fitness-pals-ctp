@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-
+import Cookies from "js-cookie";
 
 function Diary() {
     // pull user food info from db of this shape
@@ -12,6 +12,17 @@ function Diary() {
     ]);
 
     const titles = ["Breakfast", "Lunch", "Dinner", "Snacks"];
+
+    async function pullDiary() {
+        const userid = Cookies.get("userid");
+        const data = await fetch(`http://localhost:8000/diary/${userid}`);
+        const res = await data.json();
+        console.log(res);
+    }
+
+    useEffect(() => {
+        pullDiary();
+    }, [])
 
     return (
         <div>
@@ -46,6 +57,7 @@ function DateSelector({ setUserFoodArr }) {
         const d = new Date(year, month - 1, day);
         
         setDate(e.target.form[0].value);
+        console.log(e.target.form[0].value);
         setWrittenDate(`${dateMap[d.getDay()]}, ${monthMap[d.getMonth()]} ${d.getDate()}`);
 
         // at this point pull from db using updated date state

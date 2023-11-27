@@ -13,15 +13,17 @@ function Test() {
       },
       credentials: "include",
       body: JSON.stringify({
-        email: "jim@gmail.com",
+        email: "test",
         password: "password",
       }),
     });
     const res = await data.json();
     const token = res.accessToken;
+    const userid = res.existingUser.userId;
     Cookies.set("accessToken", token);
+    Cookies.set("userid", userid); //
 
-    console.log(jwtDecode(token));
+    console.log(jwtDecode(token), userid);
     setCurrentUser(jwtDecode(token));
   };
 
