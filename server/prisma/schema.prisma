@@ -16,7 +16,8 @@ model User {
   Diary        Diary[]
   Measurements Measurements?
   Posts        Post[]
-  workouts     Workout[]
+  Comments     Comment[]
+  Dairy        Diary[]
 }
 
 model Workout {
@@ -41,17 +42,7 @@ model Measurements {
 }
 
 model Diary {
-  id         String   @id @unique @default(uuid())
-  name       String
-  calories   Int
-  carb       Int
-  fat        Int
-  protein    Int
-  servings   Int
-  createdAt  DateTime @default(now())
-  userUserId String?
-  mealType   String
-  User       User?    @relation(fields: [userUserId], references: [userId])
+  id String @id @unique @default(uuid())
 }
 
 model Post {
