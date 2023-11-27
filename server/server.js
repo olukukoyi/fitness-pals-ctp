@@ -9,6 +9,7 @@ const workoutRoutes = require("../server/workout/route");
 const authRoutes = require("../server/auth/route");
 const middleware = require("../server/middleware/route");
 const postRoutes = require("./post/route");
+const diaryRoutes = require("./diary/route");
 
 const app = express();
 app.use(express.json());
@@ -52,3 +53,8 @@ app.get("/posts/progress", middleware, postRoutes.getProgressPost);
 app.get("/posts/off-topic", middleware, postRoutes.getOffTopicPosts);
 app.post("/posts/add-post", middleware, postRoutes.createPost);
 // ------
+
+//diary
+app.get("/diary/:id", diaryRoutes.fetchAllDiaries);
+
+// ----

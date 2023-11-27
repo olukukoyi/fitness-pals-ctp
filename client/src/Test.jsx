@@ -13,7 +13,7 @@ function Test() {
       },
       credentials: "include",
       body: JSON.stringify({
-        email: "jim@gmail.com",
+        email: "test",
         password: "password",
       }),
     });
