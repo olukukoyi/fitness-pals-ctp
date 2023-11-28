@@ -23,7 +23,7 @@ app.use(
 );
 app.use(cookieParser());
 
-const PORT = 8000;
+const PORT = 8001;
 
 app.listen(PORT, () => {
   console.log(`running on port ${PORT}`);
@@ -56,5 +56,6 @@ app.post("/posts/add-post", middleware, postRoutes.createPost);
 
 //diary
 app.get("/diary/:id", diaryRoutes.fetchAllDiaries);
+app.post("/diary/create-entry", diaryRoutes.createDiaryEntry);
 
 // ----
