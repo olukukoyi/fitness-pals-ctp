@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import PropTypes from "prop-types";
 import Cookies from "js-cookie";
 
@@ -64,13 +65,23 @@ function Diary() {
 
   async function pullDiary() {
     const userid = Cookies.get("userid");
+    if(userid === undefined){
+      return undefined;
+    }
     const data = await fetch(`http://localhost:8001/diary/${userid}`);
     const res = await data.json();
     console.log(res);
+    return "Pulled properly";
   }
 
+  const navigate = useNavigate();
+
   useEffect(() => {
-    pullDiary();
+    // for init pulling diary
+    // when user isnt logged in itll redirect to test page to log them in
+    pullDiary().then(val => {
+      val === undefined ? navigate("/test") : "";
+    });
   }, []);
 
   return (
