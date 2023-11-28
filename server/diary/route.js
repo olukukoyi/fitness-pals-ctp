@@ -32,9 +32,22 @@ const createDiaryEntry = async (req, res) => {
   res.json({ newEntry: newEntry });
 };
 
+const deleteDiary = async (req, res) => {
+  const id = req.parms.id;
+
+  const deletedDiary = await prisma.diary.delete({
+    where: {
+      id: id,
+    },
+  });
+
+  res.json({ deletedDiary: deletedDiary });
+};
+
 const diaryRoutes = {
   fetchAllDiaries,
   createDiaryEntry,
+  deleteDiary,
 };
 
 module.exports = diaryRoutes;
