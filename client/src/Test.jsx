@@ -5,7 +5,7 @@ import { jwtDecode } from "jwt-decode";
 function Test() {
   const [currentUser, setCurrentUser] = useState(null);
   const LoginUser = async () => {
-    const data = await fetch("http://localhost:8000/auth/login", {
+    const data = await fetch("http://localhost:8001/auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -20,6 +20,8 @@ function Test() {
     const res = await data.json();
     const token = res.accessToken;
     Cookies.set("accessToken", token);
+    console.log(res);
+    Cookies.set("userid", res.existingUser.userId);
 
     console.log(jwtDecode(token));
     setCurrentUser(jwtDecode(token));
@@ -29,11 +31,23 @@ function Test() {
     Cookies.remove("accessToken");
     console.log("user Logged out");
     setCurrentUser(null);
+    Cookies.remove("accessToken");
+    Cookies.remove("userid");
     // YOU MUST REDIRECT REFRESH PAGE / REDIRECT USER
   };
 
+  async function pullDiary() {
+    const userid = Cookies.get("userid");
+    const data = await fetch(`http://localhost:8001/diary/${userid}`, {
+      credentials: "include",
+    });
+    const res = await data.json();
+    console.log(res);
+  }
+
   useEffect(() => {
     LoginUser();
+    pullDiary();
   }, []);
   return (
     <div>
