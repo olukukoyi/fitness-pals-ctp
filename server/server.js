@@ -57,5 +57,6 @@ app.post("/posts/add-post", middleware, postRoutes.createPost);
 //diary
 app.get("/diary/:id", diaryRoutes.fetchAllDiaries);
 app.post("/diary/create-entry", diaryRoutes.createDiaryEntry);
+app.delete("/diary/delete-entry", diaryRoutes.deleteDiary);
 
 // ----
