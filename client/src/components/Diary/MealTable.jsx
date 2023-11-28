@@ -1,239 +1,5 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
 import PropTypes from "prop-types";
-import Cookies from "js-cookie";
-
-function Diary() {
-  // pull user food info from db of this shape
-  const [userFoodArr, setUserFoodArr] = useState([
-    [
-      {
-        name: "Eggo Waffles",
-        id: "1",
-        calories: 90,
-        carb: 0,
-        fat: 0,
-        protein: 0,
-        servings: 1,
-      },
-    ], // breakfast
-    [
-      {
-        name: "Kirkland Protein Bar",
-        id: "2",
-        calories: 180,
-        carb: 0,
-        fat: 0,
-        protein: 0,
-        servings: 1,
-      },
-      {
-        name: "Eggo Waffles",
-        id: "1",
-        calories: 90,
-        carb: 0,
-        fat: 0,
-        protein: 0,
-        servings: 1,
-      },
-    ], // lunch
-    [
-      {
-        name: "Kirkland Protein Bar",
-        id: "2",
-        calories: 180,
-        carb: 0,
-        fat: 0,
-        protein: 0,
-        servings: 1,
-      },
-    ], // dinner
-    [
-      {
-        name: "Kirkland Protein Bar",
-        id: "2",
-        calories: 180,
-        carb: 0,
-        fat: 0,
-        protein: 0,
-        servings: 1,
-      },
-    ], // snacks
-  ]);
-
-  const titles = ["Breakfast", "Lunch", "Dinner", "Snacks"];
-
-  async function pullDiary() {
-    const userid = Cookies.get("userid");
-    if(userid === undefined){
-      return undefined;
-    }
-    const data = await fetch(`http://localhost:8001/diary/${userid}`);
-    const res = await data.json();
-    console.log(res);
-    return "Pulled properly";
-  }
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    // for init pulling diary
-    // when user isnt logged in itll redirect to test page to log them in
-    pullDiary().then(val => {
-      val === undefined ? navigate("/test") : "";
-    });
-  }, []);
-
-  return (
-    <div>
-      <div className="divider m-0"></div>
-      <DateSelector setUserFoodArr={setUserFoodArr} />
-      <div className="divider m-0"></div>
-      <CalorieRemain />
-      <div className="divider m-0"></div>
-      {userFoodArr.map((innerArr, index) => (
-        <div key={index}>
-          <MealTable
-            foodArr={innerArr}
-            title={titles[index]}
-            userFoodArr={userFoodArr}
-            setUserFoodArr={setUserFoodArr}
-          />
-          <div className="divider before:bg-transparent after:bg-transparent"></div>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function DateSelector({ setUserFoodArr }) {
-  const d = new Date();
-  const dateMap = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-  const monthMap = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-
-  const [date, setDate] = useState(getCurrentDate());
-  const [writtenDate, setWrittenDate] = useState(
-    `${dateMap[d.getDay()]}, ${monthMap[d.getMonth()]} ${d.getDate()}`
-  ); // takes form of `Sunday, Junary 01`
-
-  function updateDate(e) {
-    //function will need to change foodArr as well
-    e.preventDefault();
-    const inputDate = e.target.form[0].value; // "yyyy-mm-dd"
-    const [year, month, day] = inputDate.split("-").map(Number);
-    const d = new Date(year, month - 1, day);
-
-    setDate(e.target.form[0].value);
-    console.log(e.target.form[0].value);
-    setWrittenDate(
-      `${dateMap[d.getDay()]}, ${monthMap[d.getMonth()]} ${d.getDate()}`
-    );
-
-    // at this point pull from db using updated date state
-    setUserFoodArr([[], [], [], []]); //for now update to empty arr
-  }
-
-  function getCurrentDate() {
-    const date = new Date();
-    const month = date.getMonth() + 1; // getMonth() returns 0-11
-    const day = date.getDate(); // getDate() returns 1-31
-    const year = date.getFullYear(); // getFullYear() returns the year
-
-    // Pad single digit month and day with a leading zero
-    const formattedMonth = month < 10 ? `0${month}` : month;
-    const formattedDay = day < 10 ? `0${day}` : day;
-
-    return `${year}-${formattedMonth}-${formattedDay}`;
-  }
-
-  return (
-    <>
-      <button
-        className="btn btn-block btn-accent"
-        onClick={() => document.getElementById("date_modal").showModal()}
-      >
-        {writtenDate}
-      </button>
-      <dialog id="date_modal" className="modal">
-        <div className="modal-box">
-          <form method="dialog">
-            {/* if there is a button in form, it will close the modal */}
-            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-              ✕
-            </button>
-          </form>
-          <h3 className="font-bold text-lg text-center">
-            Enter the new date below
-          </h3>
-          <form action="" className="flex justify-evenly">
-            <input type="date" />
-            <button
-              className="btn"
-              onClick={(e) => {
-                updateDate(e);
-              }}
-            >
-              Go there
-            </button>
-          </form>
-        </div>
-      </dialog>
-    </>
-  );
-}
-
-function CalorieRemain() {
-  //pull user data from db (using const for now)
-  const calorieData = { goal: 2000, consumed: 543 };
-  return (
-    <div className="flex flex-col flex-center justify-center">
-      <h3 className="font-bold text-lg">Calories Remaining</h3>
-      <div className="stats">
-        <div className="stat place-items-center">
-          <div className="stat-title">Goal</div>
-          <div className="stat-value text-base sm:text-3xl">
-            {calorieData.goal}
-          </div>
-        </div>
-
-        <div className="stat place-items-center">
-          <div className="stat-title">Consumed</div>
-          <div className="stat-value text-secondary text-base sm:text-3xl">
-            {calorieData.consumed}
-          </div>
-        </div>
-
-        <div className="stat place-items-center">
-          <div className="stat-title">Remaining</div>
-          <div className="stat-value text-base sm:text-3xl">
-            {calorieData.goal - calorieData.consumed}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
+import { useState } from "react";
 
 function MealTable({ title, foodArr, userFoodArr, setUserFoodArr }) {
   return (
@@ -249,7 +15,7 @@ function MealTable({ title, foodArr, userFoodArr, setUserFoodArr }) {
               ? 0
               : Math.floor(
                   ((foodObj.carb * 4) / (foodObj.calories / foodObj.servings)) *
-                    100
+                    100,
                 )
           }
           fat={
@@ -257,7 +23,7 @@ function MealTable({ title, foodArr, userFoodArr, setUserFoodArr }) {
               ? 0
               : Math.floor(
                   ((foodObj.fat * 9) / (foodObj.calories / foodObj.servings)) *
-                    100
+                    100,
                 )
           }
           protein={
@@ -266,7 +32,7 @@ function MealTable({ title, foodArr, userFoodArr, setUserFoodArr }) {
               : Math.floor(
                   ((foodObj.protein * 4) /
                     (foodObj.calories / foodObj.servings)) *
-                    100
+                    100,
                 )
           }
           servings={foodObj.servings}
@@ -446,7 +212,7 @@ function AddCustomFoodModal({ title, userFoodArr, setUserFoodArr }) {
               type="text"
               placeholder="Type here"
               className="input input-bordered w-full max-w-xs"
-              onInput={(e) => updateFood(e.target.value, "name", e.target)}
+              onInput={e => updateFood(e.target.value, "name", e.target)}
             />
           </div>
 
@@ -458,7 +224,7 @@ function AddCustomFoodModal({ title, userFoodArr, setUserFoodArr }) {
               type="number"
               placeholder="0"
               className="input input-bordered w-full max-w-xs"
-              onInput={(e) => updateFood(e.target.value, "carb", e.target)}
+              onInput={e => updateFood(e.target.value, "carb", e.target)}
             />
           </div>
 
@@ -470,7 +236,7 @@ function AddCustomFoodModal({ title, userFoodArr, setUserFoodArr }) {
               type="number"
               placeholder="0"
               className="input input-bordered w-full max-w-xs"
-              onInput={(e) => updateFood(e.target.value, "fat", e.target)}
+              onInput={e => updateFood(e.target.value, "fat", e.target)}
             />
           </div>
 
@@ -482,7 +248,7 @@ function AddCustomFoodModal({ title, userFoodArr, setUserFoodArr }) {
               type="number"
               placeholder="0"
               className="input input-bordered w-full max-w-xs"
-              onInput={(e) => updateFood(e.target.value, "protein", e.target)}
+              onInput={e => updateFood(e.target.value, "protein", e.target)}
             />
           </div>
 
@@ -495,13 +261,13 @@ function AddCustomFoodModal({ title, userFoodArr, setUserFoodArr }) {
               placeholder="1"
               defaultValue={1}
               className="input input-bordered w-full max-w-xs"
-              onInput={(e) => updateFood(e.target.value, "servings", e.target)}
+              onInput={e => updateFood(e.target.value, "servings", e.target)}
             />
           </div>
 
           <button
             className="btn"
-            onClick={(e) => {
+            onClick={e => {
               addFood(e, foodInfo, title);
             }}
           >
@@ -582,4 +348,4 @@ FoodTableItem.propTypes = {
   servings: PropTypes.number.isRequired,
 };
 
-export default Diary;
+export default MealTable;
