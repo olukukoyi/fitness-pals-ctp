@@ -130,6 +130,7 @@ function AddCustomFoodModal({ title, userFoodArr, setUserFoodArr }) {
     fat: 0,
     protein: 0,
     servings: 1,
+    mealType: title,
   });
   const [cal, updateCal] = useState(0);
 
@@ -159,7 +160,7 @@ function AddCustomFoodModal({ title, userFoodArr, setUserFoodArr }) {
     updateCal(Math.floor(temp.carb * 4 + temp.fat * 9 + temp.protein * 4));
   }
 
-  function addFood(e, foodInfo, mealName) {
+  function addFood(foodInfo, mealName) {
     const mealsMap = {
       Breakfast: 0,
       Lunch: 1,
@@ -167,7 +168,7 @@ function AddCustomFoodModal({ title, userFoodArr, setUserFoodArr }) {
       Snacks: 3,
     };
     const mealIndex = mealsMap[mealName];
-    e.preventDefault();
+
     console.log(foodInfo);
     if (foodInfo.servings <= 0) {
       alert("Enter a serving amount >= 1");
@@ -190,6 +191,18 @@ function AddCustomFoodModal({ title, userFoodArr, setUserFoodArr }) {
 
     console.log(newUserFoodArr[mealIndex]);
     setUserFoodArr(newUserFoodArr); // Update the state with the new array
+    updateFoodInfo({
+      name: "",
+      carb: 0,
+      fat: 0,
+      protein: 0,
+      servings: 1,
+      mealType: title,
+    });
+
+    const inputs = document.querySelectorAll("input");
+    inputs.forEach(input => (input.value = ""));
+    console.log(document.getElementById(`my_modal_${title}`));
   }
 
   return (
@@ -203,7 +216,7 @@ function AddCustomFoodModal({ title, userFoodArr, setUserFoodArr }) {
         </form>
 
         <h3 className="font-bold text-lg">Add {title} Food</h3>
-        <form action="">
+        <form method="dialog">
           <div className="form-control w-full max-w-xs">
             <label className="label">
               <span className="label-text">Food Name</span>
@@ -267,8 +280,8 @@ function AddCustomFoodModal({ title, userFoodArr, setUserFoodArr }) {
 
           <button
             className="btn"
-            onClick={e => {
-              addFood(e, foodInfo, title);
+            onClick={() => {
+              addFood(foodInfo, title);
             }}
           >
             Add to {title}
