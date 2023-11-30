@@ -45,7 +45,7 @@ function Signup() {
             </form>
         </div>
             <div className="modal-action">
-            <label htmlFor="my_modal_5y" className="btn">Close!</label>
+            <label htmlFor="my_modal_5" className="btn">Close!</label>
             </div>
         </div>
         </div>
