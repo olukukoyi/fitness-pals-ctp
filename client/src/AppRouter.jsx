@@ -1,11 +1,12 @@
 import { Route, Routes} from "react-router-dom";
-import Home from "./components/Home"
+import Home from "./components/Home/Home"
 import Header from "./components/Header"
 
 function AppRouter() {
   return (
     <>
-      <Header />
+      <Header 
+      loggedIn={false}/>
       <Routes>
         <Route path="/" element={<Home/>}/>
         <Route path="/diary" element={"diary component"}/> 

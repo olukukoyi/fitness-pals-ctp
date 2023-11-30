@@ -1,4 +1,6 @@
 import React from 'react'
+import Signup from './Home/Signup'
+import Login from './Home/Login'
 import { Link }  from "react-router-dom" 
 
 function Header( props ) {
@@ -36,8 +38,8 @@ function Header( props ) {
                 <Link to={"/"} className="btn btn-ghost">Home</Link>
             </div>
             <div className="flex-none">
-                <div className="px-10 btn btn-ghost">Login</div>
-                <div className="px-10 btn">Sign Up</div>
+                <Login />
+                <Signup />
             </div>
         </div>
     )
