@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import DateSelector from "./DateSelector";
+import { DateSelector, getCurrentDate } from "./DateSelector";
 import CalorieRemain from "./CalorieRemain";
 import MealTable from "./MealTable";
 
@@ -12,62 +12,24 @@ function Diary() {
   const [userFoodArr, setUserFoodArr] = useState([
     [
       {
-        name: "Eggo Waffles",
-        id: "1",
-        calories: 90,
+        name: "Kirkland Protein Bar",
+        id: "2",
+        calories: 180,
         carb: 0,
         fat: 0,
         protein: 0,
         servings: 1,
       },
     ], // breakfast
-    [
-      {
-        name: "Kirkland Protein Bar",
-        id: "2",
-        calories: 180,
-        carb: 0,
-        fat: 0,
-        protein: 0,
-        servings: 1,
-      },
-      {
-        name: "Eggo Waffles",
-        id: "1",
-        calories: 90,
-        carb: 0,
-        fat: 0,
-        protein: 0,
-        servings: 1,
-      },
-    ], // lunch
-    [
-      {
-        name: "Kirkland Protein Bar",
-        id: "2",
-        calories: 180,
-        carb: 0,
-        fat: 0,
-        protein: 0,
-        servings: 1,
-      },
-    ], // dinner
-    [
-      {
-        name: "Kirkland Protein Bar",
-        id: "2",
-        calories: 180,
-        carb: 0,
-        fat: 0,
-        protein: 0,
-        servings: 1,
-      },
-    ], // snacks
+    [], // lunch
+    [], // dinner
+    [], // snacks
   ]);
-
+  const [date, setDate] = useState(getCurrentDate());
   const titles = ["Breakfast", "Lunch", "Dinner", "Snacks"];
+  const navigate = useNavigate();
 
-  async function pullDiary() {
+  async function pullDiary(date) {
     const userid = Cookies.get("userid");
     if (userid === undefined) {
       return undefined;
@@ -76,7 +38,11 @@ function Diary() {
     const res = await data.json();
 
     for (let i = 0; i < res.diary.length; i++) {
-      // console.log(res.diary[i].mealType);
+      const dateCreated = res.diary[i].createdAt.slice(0, 10);
+
+      if (dateCreated !== date) {
+        continue; // This will skip to the next iteration of the loop when date doesnt match
+      }
       let indexToPut = 0;
       switch (res.diary[i].mealType) {
         case "Breakfast":
@@ -96,28 +62,25 @@ function Diary() {
       temp[indexToPut].push(res.diary[i]);
       setUserFoodArr(temp);
     }
-    console.log("BREAK");
     return "Pulled properly";
   }
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     // for init pulling diary
     // when user isnt logged in itll redirect to test page to log them in
-    pullDiary().then(val => {
+    pullDiary(date).then(val => {
       val === undefined ? navigate("/test") : "";
     });
   }, [navigate]);
 
   useEffect(() => {
-    console.log("New food arr is : ", userFoodArr);
-  }, [userFoodArr]);
+    pullDiary(date);
+  }, [date]);
 
   return (
     <div>
       <div className="divider m-0"></div>
-      <DateSelector setUserFoodArr={setUserFoodArr} />
+      <DateSelector setUserFoodArr={setUserFoodArr} setDate={setDate} />
       <div className="divider m-0"></div>
       <CalorieRemain />
       <div className="divider m-0"></div>

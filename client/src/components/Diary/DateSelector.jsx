@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 
-function DateSelector({ setUserFoodArr }) {
+export function DateSelector({ setUserFoodArr, setDate }) {
   const d = new Date();
   const dateMap = [
     "Sunday",
@@ -27,7 +27,6 @@ function DateSelector({ setUserFoodArr }) {
     "December",
   ];
 
-  const [date, setDate] = useState(getCurrentDate());
   const [writtenDate, setWrittenDate] = useState(
     `${dateMap[d.getDay()]}, ${monthMap[d.getMonth()]} ${d.getDate()}`,
   ); // takes form of `Sunday, Junary 01`
@@ -45,21 +44,8 @@ function DateSelector({ setUserFoodArr }) {
       `${dateMap[d.getDay()]}, ${monthMap[d.getMonth()]} ${d.getDate()}`,
     );
 
-    // at this point pull from db using updated date state
+    // at this point pull from db with useEffect that's in parent that'll pull from new date
     setUserFoodArr([[], [], [], []]); //for now update to empty arr
-  }
-
-  function getCurrentDate() {
-    const date = new Date();
-    const month = date.getMonth() + 1; // getMonth() returns 0-11
-    const day = date.getDate(); // getDate() returns 1-31
-    const year = date.getFullYear(); // getFullYear() returns the year
-
-    // Pad single digit month and day with a leading zero
-    const formattedMonth = month < 10 ? `0${month}` : month;
-    const formattedDay = day < 10 ? `0${day}` : day;
-
-    return `${year}-${formattedMonth}-${formattedDay}`;
   }
 
   return (
@@ -98,8 +84,20 @@ function DateSelector({ setUserFoodArr }) {
   );
 }
 
+export function getCurrentDate() {
+  const date = new Date();
+  const month = date.getMonth() + 1; // getMonth() returns 0-11
+  const day = date.getDate(); // getDate() returns 1-31
+  const year = date.getFullYear(); // getFullYear() returns the year
+
+  // Pad single digit month and day with a leading zero
+  const formattedMonth = month < 10 ? `0${month}` : month;
+  const formattedDay = day < 10 ? `0${day}` : day;
+
+  return `${year}-${formattedMonth}-${formattedDay}`;
+}
+
 DateSelector.propTypes = {
   setUserFoodArr: PropTypes.func.isRequired,
+  setDate: PropTypes.func.isRequired,
 };
-
-export default DateSelector;
