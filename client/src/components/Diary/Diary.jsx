@@ -74,7 +74,29 @@ function Diary() {
     }
     const data = await fetch(`http://localhost:8001/diary/${userid}`);
     const res = await data.json();
-    console.log(res);
+
+    for (let i = 0; i < res.diary.length; i++) {
+      // console.log(res.diary[i].mealType);
+      let indexToPut = 0;
+      switch (res.diary[i].mealType) {
+        case "Breakfast":
+          indexToPut = 0;
+          break;
+        case "Lunch":
+          indexToPut = 1;
+          break;
+        case "Dinner":
+          indexToPut = 2;
+          break;
+        default:
+          indexToPut = 3;
+      }
+
+      const temp = [...userFoodArr];
+      temp[indexToPut].push(res.diary[i]);
+      setUserFoodArr(temp);
+    }
+    console.log("BREAK");
     return "Pulled properly";
   }
 
@@ -87,6 +109,10 @@ function Diary() {
       val === undefined ? navigate("/test") : "";
     });
   }, [navigate]);
+
+  useEffect(() => {
+    console.log("New food arr is : ", userFoodArr);
+  }, [userFoodArr]);
 
   return (
     <div>
