@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -15,11 +12,11 @@ model User {
   email        String        @unique
   name         String
   password     String
-  workouts     Workout[]
-  Measurements Measurements?
-  Posts        Post[]
   Comments     Comment[]
   Dairy        Diary[]
+  Measurements Measurements?
+  Posts        Post[]
+  workouts     Workout[]
 }
 
 model Workout {
@@ -28,8 +25,8 @@ model Workout {
   bodyPart  String
   Reps      Int
   Set       Int
-  User      User?   @relation(fields: [ownerId], references: [userId])
   ownerId   String?
+  User      User?   @relation(fields: [ownerId], references: [userId])
 }
 
 model Measurements {
@@ -39,22 +36,22 @@ model Measurements {
   wingSpan   Int
   bicepSize  Int
   quadSize   Int
-  user       User   @relation(fields: [userId], references: [userId])
   userId     String @unique
+  user       User   @relation(fields: [userId], references: [userId])
 }
 
 model Diary {
   id         String   @id @unique @default(uuid())
-  name       String
   calories   Int
   carb       Int
+  createdAt  DateTime @default(now())
   fat        Int
+  mealType   String
+  name       String
   protein    Int
   servings   Int
-  createdAt  DateTime @default(now())
-  User       User?    @relation(fields: [userUserId], references: [userId])
   userUserId String?
-  mealType   String
+  User       User?    @relation(fields: [userUserId], references: [userId])
 }
 
 model Post {
@@ -62,16 +59,16 @@ model Post {
   title    String
   body     String
   topic    String
-  User     User?     @relation(fields: [ownerId], references: [userId])
   ownerId  String
   Comments Comment[]
+  User     User      @relation(fields: [ownerId], references: [userId])
 }
 
 model Comment {
   id      String  @id @default(uuid())
   content String
-  User    User?   @relation(fields: [ownerId], references: [userId])
   ownerId String?
-  Post    Post?   @relation(fields: [postId], references: [id])
   postId  String?
+  User    User?   @relation(fields: [ownerId], references: [userId])
+  Post    Post?   @relation(fields: [postId], references: [id])
 }

@@ -50,7 +50,7 @@ function Test() {
 
   useEffect(() => {
     LoginUser();
-    pullDiary();
+    // pullDiary();
   }, []);
   return (
     <div>
