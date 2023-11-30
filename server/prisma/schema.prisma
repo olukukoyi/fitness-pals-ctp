@@ -11,16 +11,67 @@ datasource db {
 }
 
 model User {
-  userId   String @id @unique @default(uuid())
-  email    String @unique
-  name     String
-  password String
+  userId       String        @id @unique @default(uuid())
+  email        String        @unique
+  name         String
+  password     String
+  workouts     Workout[]
+  Measurements Measurements?
+  Posts        Post[]
+  Comments     Comment[]
+  Dairy        Diary[]
 }
 
 model Workout {
-  workoutId String @id @unique @default(uuid())
+  workoutId String  @id @unique @default(uuid())
   type      String
   bodyPart  String
   Reps      Int
   Set       Int
+  User      User?   @relation(fields: [ownerId], references: [userId])
+  ownerId   String?
+}
+
+model Measurements {
+  id         String @id @default(uuid())
+  height     Int
+  bodyweight Int
+  wingSpan   Int
+  bicepSize  Int
+  quadSize   Int
+  user       User   @relation(fields: [userId], references: [userId])
+  userId     String @unique
+}
+
+model Diary {
+  id         String   @id @unique @default(uuid())
+  name       String
+  calories   Int
+  carb       Int
+  fat        Int
+  protein    Int
+  servings   Int
+  createdAt  DateTime @default(now())
+  User       User?    @relation(fields: [userUserId], references: [userId])
+  userUserId String?
+  mealType   String
+}
+
+model Post {
+  id       String    @id @default(uuid())
+  title    String
+  body     String
+  topic    String
+  User     User?     @relation(fields: [ownerId], references: [userId])
+  ownerId  String
+  Comments Comment[]
+}
+
+model Comment {
+  id      String  @id @default(uuid())
+  content String
+  User    User?   @relation(fields: [ownerId], references: [userId])
+  ownerId String?
+  Post    Post?   @relation(fields: [postId], references: [id])
+  postId  String?
 }
