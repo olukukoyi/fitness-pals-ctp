@@ -41,16 +41,16 @@ model Measurements {
 }
 
 model Diary {
-  id         String   @id @unique @default(uuid())
-  name       String
+  id         String   @id @default(uuid())
   calories   Int
   carb       Int
+  createdAt  DateTime @default(now())
   fat        Int
+  mealType   String
+  name       String
   protein    Int
   servings   Int
-  createdAt  DateTime @default(now())
   userUserId String?
-  mealType   String
   User       User?    @relation(fields: [userUserId], references: [userId])
 }
 

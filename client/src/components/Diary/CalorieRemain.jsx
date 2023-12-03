@@ -1,6 +1,8 @@
-function CalorieRemain() {
+import PropTypes from "prop-types";
+
+function CalorieRemain({ calorieData }) {
   //pull user data from db (using const for now)
-  const calorieData = { goal: 2000, consumed: 543 };
+  // const calorieData = { goal: 2000, consumed: 543 };
   return (
     <div className="flex flex-col flex-center justify-center">
       <h3 className="font-bold text-lg">Calories Remaining</h3>
@@ -29,5 +31,12 @@ function CalorieRemain() {
     </div>
   );
 }
+
+CalorieRemain.propTypes = {
+  calorieData: PropTypes.objectOf({
+    goal: PropTypes.number.isRequired,
+    consumed: PropTypes.number.isRequired,
+  }),
+};
 
 export default CalorieRemain;

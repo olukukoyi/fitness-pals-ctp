@@ -26,6 +26,7 @@ function Diary() {
     [], // snacks
   ]);
   const [date, setDate] = useState(getCurrentDate());
+  const [calorieData, setCalorieData] = useState({ goal: 2000, consumed: 0 });
   const titles = ["Breakfast", "Lunch", "Dinner", "Snacks"];
   const navigate = useNavigate();
 
@@ -41,8 +42,17 @@ function Diary() {
       const dateCreated = res.diary[i].createdAt.slice(0, 10);
 
       if (dateCreated !== date) {
+        console.log(dateCreated, date, dateCreated === date);
         continue; // This will skip to the next iteration of the loop when date doesnt match
       }
+
+      //update calories
+      const newCalorieDate = { ...calorieData };
+      newCalorieDate.consumed += res.diary[i].calories;
+      console.log(newCalorieDate);
+      setCalorieData(newCalorieDate);
+
+      //decide index to place food item
       let indexToPut = 0;
       switch (res.diary[i].mealType) {
         case "Breakfast":
@@ -58,6 +68,7 @@ function Diary() {
           indexToPut = 3;
       }
 
+      //update foodArr
       const temp = [...userFoodArr];
       temp[indexToPut].push(res.diary[i]);
       setUserFoodArr(temp);
@@ -65,24 +76,47 @@ function Diary() {
     return "Pulled properly";
   }
 
+  async function createEntry(food) {
+    // just a dummy function for now
+    const userid = Cookies.get("userid");
+    const req = await fetch("http://localhost:8001/diary/create-entry", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        // You might need additional headers (e.g., authentication tokens) based on the API requirements
+      },
+      body: JSON.stringify({
+        carb: 999,
+        fat: 999,
+        mealType: "Lunch",
+        name: "Helena",
+        protein: 999,
+        servings: 999,
+        calories: 999,
+        userId: userid,
+      }),
+    });
+
+    const res = await req.json();
+    console.log(res);
+  }
+
   useEffect(() => {
-    // for init pulling diary
     // when user isnt logged in itll redirect to test page to log them in
+    setCalorieData({ goal: 2000, consumed: 0 });
+    console.log("reset calories");
+
     pullDiary(date).then(val => {
       val === undefined ? navigate("/test") : "";
     });
-  }, [navigate]);
-
-  useEffect(() => {
-    pullDiary(date);
-  }, [date]);
+  }, [navigate, date]);
 
   return (
     <div>
       <div className="divider m-0"></div>
       <DateSelector setUserFoodArr={setUserFoodArr} setDate={setDate} />
       <div className="divider m-0"></div>
-      <CalorieRemain />
+      <CalorieRemain calorieData={calorieData} />
       <div className="divider m-0"></div>
       {userFoodArr.map((innerArr, index) => (
         <div key={index}>
