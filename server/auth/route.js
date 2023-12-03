@@ -23,7 +23,8 @@ const userLogin = async (req, res) => {
       return res.json({ error: "password does not match" });
     } else {
       const { password, ...user } = existingUser;
-      const accessToken = jwt.sign({ user }, process.env.ACCESS_TOKEN_SECRET, {
+      const accessToken = jwt.sign({ user },process.env.ACCESS_TOKEN_SECRET
+      , {
         expiresIn: "15m",
       });
       // const refreshToken = jwt.sign(
@@ -44,7 +45,7 @@ const userLogin = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
+    console.log("W: ",error);
   }
 };
 

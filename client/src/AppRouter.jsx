@@ -1,8 +1,12 @@
-import { Route, Routes, Link } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
+import Home from "./components/Home/Home"
+import Header from "./components/Header"
+
+import Test from "./Test";
 
 import NotFound from "./components/NotFound";
 import Diary from "./components/Diary/Diary";
-import Test from "./Test";
+
 import Advancedfeed from "./components/Blog/Advancedfeed";
 import BlogNav from "./components/Blog/BlogNav";
 import Storytime from "./components/Blog/Storytime";
@@ -15,29 +19,12 @@ function AppRouter() {
   return (
     <>
       <div className="flex w-full flex-col h-screen">
-        <header>
-          <div className="btn-group">
-            <Link to={"/"} className="btn">
-              Home
-            </Link>
-            <Link to={"/diary"} className="btn">
-              Diary
-            </Link>
-            <Link to={"/dashboard"} className="btn">
-              Dashboard
-            </Link>
-            <Link to={"/measure"} className="btn">
-              Measure
-            </Link>
-            <Link to={"/test"} className="btn">
-              Test
-            </Link>
-          </div>
-        </header>
+        <Header 
+        loggedIn={false}/>
         <div className="flex w-full">
           <div className="w-full">
             <Routes>
-              <Route path="/" element={"home component"} />
+              <Route path="/" element={<Home/>} />
               <Route path="/diary" element={<Diary />} />
               <Route path="/dashboard" element={"dashboard component"} />
               <Route path="/measure" element={"measure component"} />
