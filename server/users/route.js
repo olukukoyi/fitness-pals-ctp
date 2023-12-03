@@ -10,6 +10,17 @@ const getUserDetails = async (req, res) => {
     where: {
       userId: id,
     },
+    select: {
+      email: true,
+      userId: true,
+      name: true,
+      password: false,
+      Comments: true,
+      Dairy: true,
+      Measurements: true,
+      Posts: true,
+      workouts: true,
+    },
   });
   console.log(userDetails);
   return res.json({ user: userDetails });
