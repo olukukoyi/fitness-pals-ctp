@@ -46,12 +46,12 @@ app.get("/workout/:id", middleware, workoutRoutes.getUserWorkout);
 //posts
 // app.get("/posts/", middleware, postRoutes.getAllPost);
 app.get("/posts/", postRoutes.getAllPost);
-app.get("/posts/beginner", middleware, postRoutes.getBeginnerPost);
-app.get("/posts/advanced", middleware, postRoutes.getAdvancesDiscussionPost);
-app.get("/posts/story-time", middleware, postRoutes.getStoryTimePost);
-app.get("/posts/progress", middleware, postRoutes.getProgressPost);
-app.get("/posts/off-topic", middleware, postRoutes.getOffTopicPosts);
-app.post("/posts/add-post", middleware, postRoutes.createPost);
+app.get("/posts/beginner", postRoutes.getBeginnerPost);
+app.get("/posts/advanced", postRoutes.getAdvancesDiscussionPost);
+app.get("/posts/story-time", postRoutes.getStoryTimePost);
+app.get("/posts/progress", postRoutes.getProgressPost);
+app.get("/posts/off-topic", postRoutes.getOffTopicPosts);
+app.post("/posts/add-post", postRoutes.createPost);
 // ------
 
 //diary

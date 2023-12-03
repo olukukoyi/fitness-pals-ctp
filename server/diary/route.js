@@ -12,24 +12,29 @@ const fetchAllDiaries = async (req, res) => {
 };
 
 const createDiaryEntry = async (req, res) => {
-  const { calories, carb, fat, mealType, name, protein, servings, userId } =
-    req.body;
-  console.log(calories, carb, fat, mealType, name, protein, servings, userId);
+  try {
+    const { calories, carb, fat, mealType, name, protein, servings, userId } =
+      req.body;
+    console.log("RUNNING?");
+    console.log(calories, carb, fat, mealType, name, protein, servings, userId);
 
-  const newEntry = await prisma.diary.create({
-    data: {
-      calories,
-      carb,
-      fat,
-      mealType,
-      name,
-      protein,
-      servings,
-      userUserId: userId,
-    },
-  });
+    const newEntry = await prisma.diary.create({
+      data: {
+        calories,
+        carb,
+        fat,
+        mealType,
+        name,
+        protein,
+        servings,
+        userUserId: userId,
+      },
+    });
 
-  res.json({ newEntry: newEntry });
+    res.json({ newEntry: newEntry });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const deleteDiary = async (req, res) => {

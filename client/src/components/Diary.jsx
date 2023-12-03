@@ -74,7 +74,7 @@ function Diary() {
   }, []);
 
   return (
-    <div>
+    <div className="w-full">
       <div className="divider m-0"></div>
       <DateSelector setUserFoodArr={setUserFoodArr} />
       <div className="divider m-0"></div>

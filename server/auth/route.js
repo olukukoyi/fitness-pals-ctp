@@ -26,21 +26,21 @@ const userLogin = async (req, res) => {
       const accessToken = jwt.sign({ user }, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: "15m",
       });
-      const refreshToken = jwt.sign(
-        { existingUser },
-        process.env.REFRESH_TOKEN_SECRET
-      );
+      // const refreshToken = jwt.sign(
+      //   { existingUser },
+      //   process.env.REFRESH_TOKEN_SECRET
+      // );
       res.cookie("access-token", accessToken, {
         maxAge: 900000,
       });
 
-      res.cookie("refresh-token", refreshToken);
+      // res.cookie("refresh-token", refreshToken);
       // res.cookie("user-id", userId);
 
       res.json({
         existingUser,
         accessToken: accessToken,
-        refreshToken: refreshToken,
+        // refreshToken: refreshToken,
       });
     }
   } catch (error) {
