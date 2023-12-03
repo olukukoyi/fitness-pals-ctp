@@ -1,11 +1,12 @@
 import { Route, Routes } from "react-router-dom";
-import Home from "./components/Home/Home"
-import Header from "./components/Header"
+
+import Home from "./components/Home/Home";
+import Diary from "./components/Diary/Diary";
+import Header from "./components/Header";
+import Measure from "./components/Measure";
+import NotFound from "./components/NotFound";
 
 import Test from "./Test";
-
-import NotFound from "./components/NotFound";
-import Diary from "./components/Diary/Diary";
 
 import Advancedfeed from "./components/Blog/Advancedfeed";
 import BlogNav from "./components/Blog/BlogNav";
@@ -27,7 +28,7 @@ function AppRouter() {
               <Route path="/" element={<Home/>} />
               <Route path="/diary" element={<Diary />} />
               <Route path="/dashboard" element={"dashboard component"} />
-              <Route path="/measure" element={"measure component"} />
+              <Route path="/measure" element={<Measure/>} />
               <Route path="/test" element={<Test />} />
               <Route path="/user/:id" element={<UserDetails />} />
               {/* blog */}
