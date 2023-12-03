@@ -19,29 +19,23 @@ import BeginnerFeed from "./components/Blog/BeginnerFeed";
 function AppRouter() {
   return (
     <>
-      <div className="flex w-full flex-col h-screen">
-        <Header />
-        <div className="flex w-full">
-          <div className="w-full">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/diary" element={<Diary />} />
-              <Route path="/dashboard" element={"dashboard component"} />
-              <Route path="/measure" element={<Measure />} />
-              <Route path="/test" element={<Test />} />
-              <Route path="/user/:id" element={<UserDetails />} />
-              {/* blog */}
-              <Route path="/blog/Storytime-Feed" element={<Storytime />} />
-              <Route path="/blog/Advanced-Feed" element={<Advancedfeed />} />
-              <Route path="/blog/Progress-Feed" element={<ProgressFeed />} />
-              <Route path="/blog/OffTopic-Feed" element={<OfftopicFeed />} />
-              <Route path="/blog/Beginner-Feed" element={<BeginnerFeed />} />
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/diary" element={<Diary />} />
+        <Route path="/dashboard" element={"dashboard component"} />
+        <Route path="/measure" element={<Measure />} />
+        <Route path="/test" element={<Test />} />
+        <Route path="/user/:id" element={<UserDetails />} />
+        {/* blog */}
+        <Route path="/blog/Storytime-Feed" element={<Storytime />} />
+        <Route path="/blog/Advanced-Feed" element={<Advancedfeed />} />
+        <Route path="/blog/Progress-Feed" element={<ProgressFeed />} />
+        <Route path="/blog/OffTopic-Feed" element={<OfftopicFeed />} />
+        <Route path="/blog/Beginner-Feed" element={<BeginnerFeed />} />
 
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </div>
-        </div>
-      </div>
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </>
   );
 }

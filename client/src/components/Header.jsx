@@ -2,6 +2,7 @@ import Signup from "./Home/Signup";
 import Login from "./Home/Login";
 import { Link } from "react-router-dom";
 
+import profileIcon from "./assets/no-profile-picture.png";
 import Cookies from "js-cookie";
 
 function Header() {
@@ -27,7 +28,7 @@ function Header() {
         <div className="dropdown dropdown-end flex-none">
           <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
             <div className="w-10 rounded-full">
-              <img alt="Profile" src="" />
+              <img alt="Profile" src={profileIcon} />
             </div>
           </label>
           <ul
