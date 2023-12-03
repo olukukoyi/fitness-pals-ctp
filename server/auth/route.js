@@ -28,8 +28,7 @@ const userLogin = async (req, res) => {
         expiresIn: "15m",
       });
       // const refreshToken = jwt.sign(
-      //   // { existingUser },
-      //   "sdashduiashduhsudh123",
+      //   { existingUser },
       //   process.env.REFRESH_TOKEN_SECRET
       // );
       res.cookie("access-token", accessToken, {

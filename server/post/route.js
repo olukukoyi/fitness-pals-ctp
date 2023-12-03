@@ -8,31 +8,77 @@ const getAllPost = async (req, res) => {
 const getStoryTimePost = async (req, res) => {
   const storyTimes = await prisma.post.findMany({
     where: { topic: "Story-Time" },
+    include: {
+      User: {
+        select: {
+          userId: true,
+          email: true,
+          name: true,
+        },
+      },
+    },
   });
   res.json({ storytimes: storyTimes });
 };
 const getProgressPost = async (req, res) => {
   const progressPost = await prisma.post.findMany({
-    where: { topic: "progress" },
+    where: { topic: "Progress" },
+    include: {
+      User: {
+        select: {
+          userId: true,
+          email: true,
+          name: true,
+        },
+      },
+    },
   });
   res.json({ progressPosts: progressPost });
 };
 const getBeginnerPost = async (req, res) => {
   const beginnerPost = await prisma.post.findMany({
     where: { topic: "Beginner-Discussion" },
+    include: {
+      User: {
+        select: {
+          userId: true,
+          email: true,
+          name: true,
+        },
+      },
+    },
   });
   res.json({ beginnerPost: beginnerPost });
 };
 const getAdvancesDiscussionPost = async (req, res) => {
   const advancedPosts = await prisma.post.findMany({
     where: { topic: "Advanced-Discussion" },
+    include: {
+      User: {
+        select: {
+          userId: true,
+          email: true,
+          name: true,
+        },
+      },
+    },
   });
   res.json({ advancedPosts: advancedPosts });
 };
 const getOffTopicPosts = async (req, res) => {
   const offTopicPosts = await prisma.post.findMany({
-    where: { offTopic: "Off-Topic" },
+    where: { topic: "Off-Topic" },
+    include: {
+      User: {
+        select: {
+          userId: true,
+          email: true,
+          name: true,
+        },
+      },
+    },
   });
+  console.log(offTopicPosts);
   res.json({ getOffTopicPosts: offTopicPosts });
 };
 
