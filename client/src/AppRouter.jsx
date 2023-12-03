@@ -20,15 +20,14 @@ function AppRouter() {
   return (
     <>
       <div className="flex w-full flex-col h-screen">
-        <Header 
-        loggedIn={false}/>
+        <Header />
         <div className="flex w-full">
           <div className="w-full">
             <Routes>
-              <Route path="/" element={<Home/>} />
+              <Route path="/" element={<Home />} />
               <Route path="/diary" element={<Diary />} />
               <Route path="/dashboard" element={"dashboard component"} />
-              <Route path="/measure" element={<Measure/>} />
+              <Route path="/measure" element={<Measure />} />
               <Route path="/test" element={<Test />} />
               <Route path="/user/:id" element={<UserDetails />} />
               {/* blog */}
