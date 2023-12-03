@@ -1,7 +1,7 @@
 import { Route, Routes, Link } from "react-router-dom";
 
 import NotFound from "./components/NotFound";
-import Diary from "./components/Diary";
+import Diary from "./components/Diary/Diary";
 import Test from "./Test";
 import Advancedfeed from "./components/Blog/Advancedfeed";
 import BlogNav from "./components/Blog/BlogNav";
