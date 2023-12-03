@@ -1,13 +1,19 @@
 const prisma = require("../../server/prismadb");
 
-const getWorkout = async (req, res) => {
-  const workouts = await prisma.workout.findMany();
+const getUserWorkout = async (req, res) => {
+  const id = req.params.id;
+
+  const workouts = await prisma.workout.findMany({
+    where: {
+      ownerId: id,
+    },
+  });
 
   res.json({ workouts: workouts });
 };
 
 const workoutRoutes = {
-  getWorkout,
+  getUserWorkout,
 };
 
 module.exports = workoutRoutes;
