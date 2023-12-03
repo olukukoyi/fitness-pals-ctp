@@ -35,25 +35,24 @@ function AppRouter() {
           </div>
         </header>
         <div className="flex w-full">
-          <div className="w-[12%] h-screen">
-            <BlogNav />
-          </div>
-          <Routes>
-            <Route path="/" element={"home component"} />
-            <Route path="/diary" element={<Diary />} />
-            <Route path="/dashboard" element={"dashboard component"} />
-            <Route path="/measure" element={"measure component"} />
-            <Route path="/test" element={<Test />} />
-            <Route path="/user/:id" element={<UserDetails />} />
-            {/* blog */}
-            <Route path="/blog/Storytime-Feed" element={<Storytime />} />
-            <Route path="/blog/Advanced-Feed" element={<Advancedfeed />} />
-            <Route path="/blog/Progress-Feed" element={<ProgressFeed />} />
-            <Route path="/blog/OffTopic-Feed" element={<OfftopicFeed />} />
-            <Route path="/blog/Beginner-Feed" element={<BeginnerFeed />} />
+          <div className="w-full">
+            <Routes>
+              <Route path="/" element={"home component"} />
+              <Route path="/diary" element={<Diary />} />
+              <Route path="/dashboard" element={"dashboard component"} />
+              <Route path="/measure" element={"measure component"} />
+              <Route path="/test" element={<Test />} />
+              <Route path="/user/:id" element={<UserDetails />} />
+              {/* blog */}
+              <Route path="/blog/Storytime-Feed" element={<Storytime />} />
+              <Route path="/blog/Advanced-Feed" element={<Advancedfeed />} />
+              <Route path="/blog/Progress-Feed" element={<ProgressFeed />} />
+              <Route path="/blog/OffTopic-Feed" element={<OfftopicFeed />} />
+              <Route path="/blog/Beginner-Feed" element={<BeginnerFeed />} />
 
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </div>
         </div>
       </div>
     </>

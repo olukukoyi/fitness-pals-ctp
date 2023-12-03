@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import PostCard from "./PostCard";
 import CreatePost from "./CreatePost";
+import BlogNav from "./BlogNav";
 
 function Advancedfeed() {
   const [feed, setFeed] = useState();
@@ -22,9 +23,12 @@ function Advancedfeed() {
   return (
     <div className=" w-full h-screen flex items-center justify-center flex-col space-y-5">
       <div className="flex justify-evenly w-full">
+        <div className=" w-[25%] h-screen">
+          <BlogNav />
+        </div>
         <div>
           <h1 className="font-bold text-[50px] underline">Advanced Feed </h1>{" "}
-          {feed?.map((item) => {
+          {feed?.map(item => {
             return <PostCard key={item.id} item={item} />;
           })}
         </div>

@@ -22,7 +22,7 @@ function BeginnerFeed() {
       <div className="flex justify-evenly w-full">
         <div>
           <h1 className="font-bold text-[50px] underline">Beginner Feed </h1>{" "}
-          {feed?.map((item) => {
+          {feed?.map(item => {
             return <PostCard key={item.id} item={item} />;
           })}
         </div>

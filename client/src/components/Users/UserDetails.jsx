@@ -24,7 +24,7 @@ function UserDetails() {
       </h1>
       <div className="flex space-x-10">
         <div className="underline bold">Post:</div>
-        {userDetails?.Posts?.map((item) => {
+        {userDetails?.Posts?.map(item => {
           return (
             <div className="border p-5" key={item.id}>
               {" "}
@@ -35,10 +35,9 @@ function UserDetails() {
       </div>
       <div className="flex space-x-10">
         <div className="underline bold">Dairy:</div>
-        {userDetails?.Dairy?.map((item) => {
+        {userDetails?.Dairy?.map(item => {
           return (
             <div className="border p-5" key={item.id}>
-              {" "}
               {item.name}
             </div>
           );
