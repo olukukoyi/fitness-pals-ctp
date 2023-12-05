@@ -33,7 +33,7 @@ function CalorieRemain({ calorieData }) {
 }
 
 CalorieRemain.propTypes = {
-  calorieData: PropTypes.objectOf({
+  calorieData: PropTypes.shape({
     goal: PropTypes.number.isRequired,
     consumed: PropTypes.number.isRequired,
   }),
