@@ -1,6 +1,8 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 
+import { createEntry } from "./DataBaseFunc";
+
 function MealTable({ title, foodArr, userFoodArr, setUserFoodArr }) {
   return (
     <ul className="menu bg-base-200 p-0 [&_li>*]:rounded-none">
@@ -160,7 +162,9 @@ function AddCustomFoodModal({ title, userFoodArr, setUserFoodArr }) {
     updateCal(Math.floor(temp.carb * 4 + temp.fat * 9 + temp.protein * 4));
   }
 
-  function addFood(foodInfo, mealName) {
+  async function addFood(foodInfo, mealName) {
+    // all foodInfo needs is userId and calories to be part of it
+
     const mealsMap = {
       Breakfast: 0,
       Lunch: 1,
@@ -179,11 +183,12 @@ function AddCustomFoodModal({ title, userFoodArr, setUserFoodArr }) {
     }
 
     const newUserFoodArr = [...userFoodArr];
-    const newFood = {
+    const entryInput = {
       ...foodInfo,
       calories: cal * foodInfo.servings,
-      id: `${Math.floor(Math.random() * 9999)}`,
     };
+    const newFood = await createEntry(entryInput);
+
     if (!newUserFoodArr[mealIndex]) {
       newUserFoodArr[mealIndex] = []; // Initialize the array if it doesn't exist
     }
