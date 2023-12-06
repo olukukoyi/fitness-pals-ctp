@@ -1,7 +1,9 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 
-import { createEntry } from "./DataBaseFunc";
+import { createEntry, deleteEntry } from "./DataBaseFunc";
+
+import trashcan from "../assets/trash-can.svg";
 
 function MealTable({ title, foodArr, userFoodArr, setUserFoodArr }) {
   return (
@@ -38,6 +40,8 @@ function MealTable({ title, foodArr, userFoodArr, setUserFoodArr }) {
                 )
           }
           servings={foodObj.servings}
+          userFoodArr={userFoodArr}
+          setUserFoodArr={setUserFoodArr}
           key={index}
         />
       ))}
@@ -60,7 +64,17 @@ function MealTable({ title, foodArr, userFoodArr, setUserFoodArr }) {
   );
 }
 
-function FoodTableItem({ name, id, cal, carb, protein, fat, servings }) {
+function FoodTableItem({
+  name,
+  id,
+  cal,
+  carb,
+  protein,
+  fat,
+  servings,
+  userFoodArr,
+  setUserFoodArr,
+}) {
   return (
     <>
       <div className="divider m-0"></div>
@@ -119,6 +133,17 @@ function FoodTableItem({ name, id, cal, carb, protein, fat, servings }) {
               Calories <br /> {cal}
             </div>
           </div>
+          <form method="dialog">
+            <button
+              className="btn btn-error"
+              onClick={() => {
+                deleteEntry(userFoodArr, setUserFoodArr, id);
+              }}
+            >
+              <img src={trashcan} alt="x" className="h-6 w-6" />
+              Delete Item
+            </button>
+          </form>
         </div>
       </dialog>
     </>
@@ -364,6 +389,8 @@ FoodTableItem.propTypes = {
   fat: PropTypes.number.isRequired,
   protein: PropTypes.number.isRequired,
   servings: PropTypes.number.isRequired,
+  userFoodArr: PropTypes.array.isRequired,
+  setUserFoodArr: PropTypes.func.isRequired,
 };
 
 export default MealTable;

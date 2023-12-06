@@ -68,3 +68,22 @@ export async function createEntry(food) {
   const res = await req.json();
   return res.newEntry;
 }
+
+export async function deleteEntry(userFoodArr, setUserFoodArr, id) {
+  const req = await fetch("http://localhost:8001/diary/delete-entry", {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      id: id,
+    }),
+  });
+  const res = await req.json();
+  console.log(res);
+
+  const updatedFoodArr = userFoodArr.map(subArray =>
+    subArray.filter(item => item.id !== id),
+  );
+  setUserFoodArr(updatedFoodArr);
+}
