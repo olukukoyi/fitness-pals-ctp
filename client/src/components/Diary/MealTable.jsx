@@ -49,6 +49,8 @@ function MealTable({
           servings={foodObj.servings}
           userFoodArr={userFoodArr}
           setUserFoodArr={setUserFoodArr}
+          consumedCalories={calories}
+          setConsumedCalories={setCalories}
           key={index}
         />
       ))}
@@ -83,6 +85,8 @@ function FoodTableItem({
   servings,
   userFoodArr,
   setUserFoodArr,
+  consumedCalories,
+  setConsumedCalories,
 }) {
   return (
     <>
@@ -147,6 +151,11 @@ function FoodTableItem({
               className="btn btn-error"
               onClick={() => {
                 deleteEntry(userFoodArr, setUserFoodArr, id);
+                const newConsumedCalories = {
+                  goal: consumedCalories.goal,
+                  consumed: consumedCalories.consumed - cal,
+                };
+                setConsumedCalories(newConsumedCalories);
               }}
             >
               <img src={trashcan} alt="x" className="h-6 w-6" />
@@ -247,7 +256,6 @@ function AddCustomFoodModal({
     const inputs = document.querySelectorAll("input");
     inputs.forEach(input => (input.value = ""));
 
-    console.log(cal, "THIS IS THE FOODS CALORIES!!", consumedCalories.consumed);
     const newConsumedCalories = {
       goal: consumedCalories.goal,
       consumed: consumedCalories.consumed + cal,
@@ -416,6 +424,8 @@ FoodTableItem.propTypes = {
   servings: PropTypes.number.isRequired,
   userFoodArr: PropTypes.array.isRequired,
   setUserFoodArr: PropTypes.func.isRequired,
+  consumedCalories: PropTypes.object.isRequired,
+  setConsumedCalories: PropTypes.func.isRequired,
 };
 
 export default MealTable;
