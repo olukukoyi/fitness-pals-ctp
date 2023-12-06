@@ -50,6 +50,8 @@ function Diary() {
             title={titles[index]}
             userFoodArr={userFoodArr}
             setUserFoodArr={setUserFoodArr}
+            calories={calorieData}
+            setCalories={setCalorieData}
           />
           <div className="divider before:bg-transparent after:bg-transparent"></div>
         </div>

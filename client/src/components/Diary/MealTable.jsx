@@ -5,7 +5,14 @@ import { createEntry, deleteEntry } from "./DataBaseFunc";
 
 import trashcan from "../assets/trash-can.svg";
 
-function MealTable({ title, foodArr, userFoodArr, setUserFoodArr }) {
+function MealTable({
+  title,
+  foodArr,
+  userFoodArr,
+  setUserFoodArr,
+  calories,
+  setCalories,
+}) {
   return (
     <ul className="menu bg-base-200 p-0 [&_li>*]:rounded-none">
       <li className="menu-title">{title}</li>
@@ -59,6 +66,8 @@ function MealTable({ title, foodArr, userFoodArr, setUserFoodArr }) {
         title={title}
         userFoodArr={userFoodArr}
         setUserFoodArr={setUserFoodArr}
+        consumedCalories={calories}
+        setConsumedCalories={setCalories}
       />
     </ul>
   );
@@ -90,7 +99,7 @@ function FoodTableItem({
         </div>
       </li>
       <dialog id={`my_modal_${id}`} className="modal">
-        <div className="modal-box h-screen">
+        <div className="modal-box">
           <form method="dialog">
             {/* if there is a button in form, it will close the modal */}
             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
@@ -98,11 +107,10 @@ function FoodTableItem({
             </button>
           </form>
 
-          <h3 className="font-bold text-lg">
-            {name} {id}
-          </h3>
-          <p className="py-4">Press ESC key or click on ✕ button to close</p>
-          <div className="flex justify-evenly">
+          <h3 className="font-bold text-lg">{name}</h3>
+          <h2>id: {id}</h2>
+          <div className="divider"></div>
+          <div className="grid grid-cols-2 place-items-center">
             <div
               className="radial-progress text-xs text-center text-rose-500"
               style={{ "--value": carb }}
@@ -133,7 +141,8 @@ function FoodTableItem({
               Calories <br /> {cal}
             </div>
           </div>
-          <form method="dialog">
+          <div className="divider"></div>
+          <form method="dialog" className="flex justify-center">
             <button
               className="btn btn-error"
               onClick={() => {
@@ -150,7 +159,13 @@ function FoodTableItem({
   );
 }
 
-function AddCustomFoodModal({ title, userFoodArr, setUserFoodArr }) {
+function AddCustomFoodModal({
+  title,
+  userFoodArr,
+  setUserFoodArr,
+  consumedCalories,
+  setConsumedCalories,
+}) {
   const [foodInfo, updateFoodInfo] = useState({
     name: "",
     carb: 0,
@@ -219,7 +234,6 @@ function AddCustomFoodModal({ title, userFoodArr, setUserFoodArr }) {
     }
     newUserFoodArr[mealIndex].push(newFood);
 
-    console.log(newUserFoodArr[mealIndex]);
     setUserFoodArr(newUserFoodArr); // Update the state with the new array
     updateFoodInfo({
       name: "",
@@ -232,7 +246,14 @@ function AddCustomFoodModal({ title, userFoodArr, setUserFoodArr }) {
 
     const inputs = document.querySelectorAll("input");
     inputs.forEach(input => (input.value = ""));
-    console.log(document.getElementById(`my_modal_${title}`));
+
+    console.log(cal, "THIS IS THE FOODS CALORIES!!", consumedCalories.consumed);
+    const newConsumedCalories = {
+      goal: consumedCalories.goal,
+      consumed: consumedCalories.consumed + cal,
+    };
+    setConsumedCalories(newConsumedCalories);
+    updateCal(0);
   }
 
   return (
@@ -372,6 +393,8 @@ AddCustomFoodModal.propTypes = {
   title: PropTypes.string.isRequired,
   userFoodArr: PropTypes.array.isRequired,
   setUserFoodArr: PropTypes.func.isRequired,
+  consumedCalories: PropTypes.object.isRequired,
+  setConsumedCalories: PropTypes.func.isRequired,
 };
 
 MealTable.propTypes = {
@@ -379,6 +402,8 @@ MealTable.propTypes = {
   foodArr: PropTypes.array.isRequired,
   userFoodArr: PropTypes.array.isRequired,
   setUserFoodArr: PropTypes.func.isRequired,
+  calories: PropTypes.object.isRequired,
+  setCalories: PropTypes.func.isRequired,
 };
 
 FoodTableItem.propTypes = {
