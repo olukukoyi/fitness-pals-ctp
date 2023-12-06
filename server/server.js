@@ -44,7 +44,6 @@ app.get("/workout/:id", middleware, workoutRoutes.getUserWorkout);
 // ------
 
 //posts
-// app.get("/posts/", middleware, postRoutes.getAllPost);
 app.get("/posts/", postRoutes.getAllPost);
 app.get("/posts/beginner", postRoutes.getBeginnerPost);
 app.get("/posts/advanced", postRoutes.getAdvancesDiscussionPost);
