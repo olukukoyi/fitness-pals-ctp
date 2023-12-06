@@ -38,15 +38,18 @@ const createDiaryEntry = async (req, res) => {
 };
 
 const deleteDiary = async (req, res) => {
-  const id = req.parms.id;
+  const id = req.body.id;
 
-  const deletedDiary = await prisma.diary.delete({
-    where: {
-      id: id,
-    },
-  });
-
-  res.json({ deletedDiary: deletedDiary });
+  try {
+    const deletedDiary = await prisma.diary.delete({
+      where: {
+        id: id,
+      },
+    });
+    res.json({ deletedDiary: deletedDiary });
+  } catch (err) {
+    res.json({ error: err });
+  }
 };
 
 const diaryRoutes = {

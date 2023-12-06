@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   cors({
     credentials: true,
-    methods: ["GET", "POST"],
+    methods: ["GET", "POST", "DELETE"],
     origin: ["http://localhost:5173", "http://127.0.0.1:5173"],
   })
 );
