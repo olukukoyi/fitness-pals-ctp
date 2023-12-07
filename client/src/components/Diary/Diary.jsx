@@ -107,7 +107,7 @@ function Diary() {
     console.log("reset calories");
 
     pullDiary(date).then(val => {
-      val === undefined ? navigate("/test") : "";
+      // val === undefined ? navigate("/test") : "";
     });
   }, [navigate, date]);
 
