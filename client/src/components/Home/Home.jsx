@@ -24,16 +24,19 @@ function Home() {
           image={pic1}
           title="Calorie Tracker"
           description="Check your current calorie intake and calorie goals!"
+          linkTo="/measure"
         />
         <Card 
           image={pic2}
           title="Diary"
           description="Check your personalized notes on your progress and calorie intake!"
+          linkTo="/diary"
         />
         <Card 
           image={pic3}
           title="Blog"
           description="Chat and discuss gym related topics with other Gym goers!"
+          //linkTo="" <-Enter the blog page
         />
         
       </div>

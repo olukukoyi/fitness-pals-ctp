@@ -5,8 +5,8 @@ const BmiCalculator = () => {
   const [weight, setWeight] = useState("");
   const [feet, setFeet] = useState("");
   const [inches, setInches] = useState("");
-  const [result, setResult] = useState(null);
-  const [isResultCardOpen, setIsResultCardOpen] = useState(false);
+  const [result, setResult] = useState(null);//
+  const [isResultCardOpen, setIsResultCardOpen] = useState(false);//
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -19,12 +19,13 @@ const BmiCalculator = () => {
       isNaN(feet) ||
       inches === null ||
       isNaN(inches)
-    ) {
+    ) 
+    {
       resultMessage = "Please fill all boxes with the appropriate info";
     }
     calculateBmi();
 
-    setIsResultCardOpen(true);
+    setIsResultCardOpen(true);//
   };
 
   const calculateBmi = () => {
@@ -53,10 +54,10 @@ const BmiCalculator = () => {
       bmiCategory;
     const additionalMessage =
       " Here is an article to tell you about bmi and your category ";
-    setResult(resultMessage + additionalMessage);
+    setResult(resultMessage + additionalMessage);//
   };
 
-  const closeResultCard = () => {
+  const closeResultCard = () => {//
     setWeight("");
     setFeet("");
     setInches("");
@@ -78,7 +79,7 @@ const BmiCalculator = () => {
             max="500"
             value={weight}
             onChange={e => setWeight(e.target.value)}
-            className="form-input mt-1 block w-full border-2 rounded-md p-2"
+            className="form-input mt-1 block w-full border-2 rounded-md p-2 text-white"
           />
         </div>
 
@@ -94,7 +95,7 @@ const BmiCalculator = () => {
               max="8"
               value={feet}
               onChange={e => setFeet(e.target.value)}
-              className="form-input mt-1 block w-full border-2 rounded-md p-2"
+              className="form-input mt-1 block w-full border-2 rounded-md p-2 text-white"
             />
           </div>
 
@@ -109,13 +110,13 @@ const BmiCalculator = () => {
               max="11"
               value={inches}
               onChange={e => setInches(e.target.value)}
-              className="form-input mt-1 block w-full border-2 rounded-md p-2"
+              className="form-input mt-1 block w-full border-2 rounded-md p-2 text-secondary"
             />
           </div>
         </div>
         <button
           type="submit"
-          className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300"
+          className="btn-primary text-white py-2 px-4 rounded-md transition duration-300"
         >
           Calculate BMI
         </button>
