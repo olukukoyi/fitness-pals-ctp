@@ -10,10 +10,10 @@ function BlogNav() {
     "OffTopic-Feed",
   ];
   return (
-    <div className="bg-red-600 w-full h-screen flex items-center justify-center flex-col space-y-10 ">
-      {topics.map((item) => {
+    <div className="navbar bg-base-300 flex justify-evenly">
+      {topics.map(item => {
         return (
-          <Link key={item} to={`/blog/${item}`}>
+          <Link key={item} to={`/blog/${item}`} className="btn">
             {item}
           </Link>
         );
