@@ -37,6 +37,7 @@ app.get("/auth/logout", authRoutes.userLogout);
 
 // user routes
 app.get("/user/:id", userRoutes.getUserDetails);
+app.put("/user/update-cal-goal", userRoutes.updateCalGoal);
 // ------
 
 // workouts

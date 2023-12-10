@@ -17,6 +17,7 @@ model User {
   Measurements Measurements?
   Posts        Post[]
   workouts     Workout[]
+  calGoal      Int?
 }
 
 model Workout {
