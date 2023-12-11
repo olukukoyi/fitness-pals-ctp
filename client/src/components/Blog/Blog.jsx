@@ -1,6 +1,4 @@
 import { Route, Routes, BrowserRouter } from "react-router-dom";
-import instagram_Logo from "../assets/instagram_Logo.png";
-
 import Advancedfeed from "./Advancedfeed";
 import Storytime from "./Storytime";
 import ProgressFeed from "./ProgressFeed";
