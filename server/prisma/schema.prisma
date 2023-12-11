@@ -12,11 +12,14 @@ model User {
   email        String        @unique
   name         String
   password     String
-  Comments     Comment[]
   Dairy        Diary[]
   Measurements Measurements?
   Posts        Post[]
   workouts     Workout[]
+  calGoal      Int?
+  comments     Comment[]     @relation("created")
+  tagged       Comment[]     @relation("tagged")
+  // Comment      Comment?      @relation(fields: [commentId], references: [id])
 }
 
 model Workout {
@@ -65,10 +68,12 @@ model Post {
 }
 
 model Comment {
-  id      String  @id @default(uuid())
-  content String
-  ownerId String?
-  postId  String?
-  User    User?   @relation(fields: [ownerId], references: [userId])
-  Post    Post?   @relation(fields: [postId], references: [id])
+  id           String  @id @default(uuid())
+  content      String
+  postId       String?
+  Post         Post?   @relation(fields: [postId], references: [id])
+  ownerId      String?
+  User         User?   @relation("tagged", fields: [ownerId], references: [userId])
+  taggedUser   User?   @relation("created", fields: [taggedUserId], references: [userId])
+  taggedUserId String?
 }

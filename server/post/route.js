@@ -16,6 +16,7 @@ const getStoryTimePost = async (req, res) => {
           name: true,
         },
       },
+      Comments: true,
     },
   });
   res.json({ storytimes: storyTimes });
@@ -31,6 +32,7 @@ const getProgressPost = async (req, res) => {
           name: true,
         },
       },
+      Comments: true,
     },
   });
   res.json({ progressPosts: progressPost });
@@ -46,6 +48,7 @@ const getBeginnerPost = async (req, res) => {
           name: true,
         },
       },
+      Comments: true,
     },
   });
   res.json({ beginnerPost: beginnerPost });
@@ -61,6 +64,7 @@ const getAdvancesDiscussionPost = async (req, res) => {
           name: true,
         },
       },
+      Comments: true,
     },
   });
   res.json({ advancedPosts: advancedPosts });
@@ -76,6 +80,7 @@ const getOffTopicPosts = async (req, res) => {
           name: true,
         },
       },
+      Comments: true,
     },
   });
   console.log(offTopicPosts);

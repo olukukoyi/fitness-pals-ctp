@@ -10,6 +10,7 @@ const authRoutes = require("../server/auth/route");
 const middleware = require("../server/middleware/route");
 const postRoutes = require("./post/route");
 const diaryRoutes = require("./diary/route");
+const commentRoutes = require("./comments/route");
 
 const app = express();
 app.use(express.json());
@@ -29,34 +30,37 @@ app.listen(PORT, () => {
   console.log(`running on port ${PORT}`);
 });
 
-// auth routes
-app.post("/auth/login", authRoutes.userLogin);
-app.post("/auth/signup", authRoutes.userSignUp);
-app.get("/auth/logout", authRoutes.userLogout);
+// auth routes ( go to page ro view params )
+app.post("/auth/login", authRoutes.userLogin); // login
+app.post("/auth/signup", authRoutes.userSignUp); // signup
+app.get("/auth/logout", authRoutes.userLogout); // logout ( no param)
 // ------
 
 // user routes
-app.get("/user/:id", userRoutes.getUserDetails);
+app.get("/user/:id", userRoutes.getUserDetails); // fetch user details
+app.put("/user/update-cal-goal", userRoutes.updateCalGoal); // update cal goal , val is initial set to null
 // ------
 
 // workouts
-app.get("/workout/:id", middleware, workoutRoutes.getUserWorkout);
+app.get("/workout/:id", middleware, workoutRoutes.getUserWorkout); // fetch workouts
 // ------
 
 //posts
-// app.get("/posts/", middleware, postRoutes.getAllPost);
-app.get("/posts/", postRoutes.getAllPost);
+app.get("/posts/", postRoutes.getAllPost); // view all posts
 app.get("/posts/beginner", postRoutes.getBeginnerPost);
 app.get("/posts/advanced", postRoutes.getAdvancesDiscussionPost);
 app.get("/posts/story-time", postRoutes.getStoryTimePost);
 app.get("/posts/progress", postRoutes.getProgressPost);
 app.get("/posts/off-topic", postRoutes.getOffTopicPosts);
-app.post("/posts/add-post", postRoutes.createPost);
+app.post("/posts/add-post", postRoutes.createPost); // create post
 // ------
 
 //diary
-app.get("/diary/:id", diaryRoutes.fetchAllDiaries);
-app.post("/diary/create-entry", diaryRoutes.createDiaryEntry);
-app.delete("/diary/delete-entry", diaryRoutes.deleteDiary);
+app.get("/diary/:id", diaryRoutes.fetchAllDiaries); // view individual dairy
+app.post("/diary/create-entry", diaryRoutes.createDiaryEntry); // create entry
+app.delete("/diary/delete-entry", diaryRoutes.deleteDiary); // delete dairy//diary
+// ----
 
+//comments
+app.post("/comments/create-entry", commentRoutes.createComment); // create entry
 // ----
