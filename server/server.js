@@ -10,6 +10,7 @@ const authRoutes = require("../server/auth/route");
 const middleware = require("../server/middleware/route");
 const postRoutes = require("./post/route");
 const diaryRoutes = require("./diary/route");
+const commentRoutes = require("./comments/route");
 
 const app = express();
 app.use(express.json());
@@ -57,6 +58,9 @@ app.post("/posts/add-post", postRoutes.createPost); // create post
 //diary
 app.get("/diary/:id", diaryRoutes.fetchAllDiaries); // view individual dairy
 app.post("/diary/create-entry", diaryRoutes.createDiaryEntry); // create entry
-app.delete("/diary/delete-entry", diaryRoutes.deleteDiary); // delete dairy
+app.delete("/diary/delete-entry", diaryRoutes.deleteDiary); // delete dairy//diary
+// ----
 
+//comments
+app.post("/comments/create-entry", commentRoutes.createComment); // create entry
 // ----
