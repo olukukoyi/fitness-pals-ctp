@@ -21,6 +21,7 @@ const getUserDetails = async (req, res) => {
       Measurements: true,
       Posts: true,
       workouts: true,
+      calGoal: true,
     },
   });
   console.log(userDetails);
