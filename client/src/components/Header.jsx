@@ -20,7 +20,7 @@ function Header() {
   const userid = Cookies.get("userid");
   if (userid !== undefined) {
     return (
-      <div className="navbar bg-base-100">
+      <div className="navbar bg-base-100 overflow-hidden">
         <div className="flex-1">
           <Link to={"/"} className="btn btn-ghost">
             Home
