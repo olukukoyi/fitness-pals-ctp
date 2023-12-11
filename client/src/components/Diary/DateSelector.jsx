@@ -33,11 +33,15 @@ export function DateSelector({ setUserFoodArr, setDate }) {
 
   function updateDate(e) {
     //function will need to change foodArr as well
-    e.preventDefault();
     const inputDate = e.target.form[0].value; // "yyyy-mm-dd"
     const [year, month, day] = inputDate.split("-").map(Number);
     const d = new Date(year, month - 1, day);
 
+    if(inputDate === "" || writtenDate === `${dateMap[d.getDay()]}, ${monthMap[d.getMonth()]} ${d.getDate()}`){
+      e.preventDefault();
+      return;
+    }
+    
     setDate(e.target.form[0].value);
     console.log(e.target.form[0].value);
     setWrittenDate(
@@ -67,7 +71,7 @@ export function DateSelector({ setUserFoodArr, setDate }) {
           <h3 className="font-bold text-lg text-center">
             Enter the new date below
           </h3>
-          <form action="" className="flex justify-evenly">
+          <form method="dialog" className="flex justify-evenly">
             <input type="date" />
             <button
               className="btn"

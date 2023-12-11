@@ -11,6 +11,7 @@ function MealTable({
   userFoodArr,
   setUserFoodArr,
   calories,
+  date,
   setCalories,
 }) {
   return (
@@ -69,6 +70,7 @@ function MealTable({
         userFoodArr={userFoodArr}
         setUserFoodArr={setUserFoodArr}
         consumedCalories={calories}
+        date={date}
         setConsumedCalories={setCalories}
       />
     </ul>
@@ -170,6 +172,7 @@ function FoodTableItem({
 
 function AddCustomFoodModal({
   title,
+  date,
   userFoodArr,
   setUserFoodArr,
   consumedCalories,
@@ -211,7 +214,7 @@ function AddCustomFoodModal({
     updateCal(Math.floor(temp.carb * 4 + temp.fat * 9 + temp.protein * 4));
   }
 
-  async function addFood(foodInfo, mealName) {
+  async function addFood(e, foodInfo, mealName) {
     // all foodInfo needs is userId and calories to be part of it
 
     const mealsMap = {
@@ -224,9 +227,11 @@ function AddCustomFoodModal({
 
     console.log(foodInfo);
     if (foodInfo.servings <= 0) {
+      e.preventDefault();
       alert("Enter a serving amount >= 1");
       return;
     } else if (foodInfo.name === "") {
+      e.preventDefault();
       alert("Enter a food name of length >= 1");
       return;
     }
@@ -235,7 +240,9 @@ function AddCustomFoodModal({
     const entryInput = {
       ...foodInfo,
       calories: cal * foodInfo.servings,
+      createdAt: date,
     };
+    console.log(entryInput);
     const newFood = await createEntry(entryInput);
 
     if (!newUserFoodArr[mealIndex]) {
@@ -255,6 +262,7 @@ function AddCustomFoodModal({
 
     const inputs = document.querySelectorAll("input");
     inputs.forEach(input => (input.value = ""));
+    inputs.forEach(input => (input.classList.remove("input-success")));
 
     const newConsumedCalories = {
       goal: consumedCalories.goal,
@@ -339,8 +347,8 @@ function AddCustomFoodModal({
 
           <button
             className="btn"
-            onClick={() => {
-              addFood(foodInfo, title);
+            onClick={(e) => {
+              addFood(e, foodInfo, title);
             }}
           >
             Add to {title}
@@ -399,6 +407,7 @@ function AddCustomFoodModal({
 
 AddCustomFoodModal.propTypes = {
   title: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
   userFoodArr: PropTypes.array.isRequired,
   setUserFoodArr: PropTypes.func.isRequired,
   consumedCalories: PropTypes.object.isRequired,
@@ -407,6 +416,7 @@ AddCustomFoodModal.propTypes = {
 
 MealTable.propTypes = {
   title: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
   foodArr: PropTypes.array.isRequired,
   userFoodArr: PropTypes.array.isRequired,
   setUserFoodArr: PropTypes.func.isRequired,
