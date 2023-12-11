@@ -2,6 +2,7 @@
 import { Link } from "react-router-dom";
 
 function BlogNav() {
+  //blog nav bar
   const topics = [
     "Storytime-Feed",
     "Progress-Feed",
@@ -10,6 +11,8 @@ function BlogNav() {
     "OffTopic-Feed",
   ];
   return (
+    //*Make sure that the flex works correctly when the page is shrunk */}
+
     <div className="navbar bg-base-300 flex justify-evenly">
       {topics.map(item => {
         return (
