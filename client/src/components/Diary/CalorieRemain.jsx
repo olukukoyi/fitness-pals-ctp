@@ -82,7 +82,10 @@ function CalorieRemain({ calorieData, setCalorieData }) {
 
         <div className="stat place-items-center">
           <div className="stat-title">Consumed</div>
-          <div className="stat-value text-secondary text-base sm:text-3xl">
+          <div
+            className="stat-value text-secondary text-base sm:text-3xl"
+            id="consumed"
+          >
             {calorieData.consumed}
           </div>
         </div>

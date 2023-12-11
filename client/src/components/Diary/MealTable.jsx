@@ -116,7 +116,7 @@ function FoodTableItem({
           <h3 className="font-bold text-lg">{name}</h3>
           <h2>id: {id}</h2>
           <div className="divider"></div>
-          <div className="grid grid-cols-2 place-items-center">
+          <div className="grid grid-cols-2 place-items-center gap-y-5">
             <div
               className="radial-progress text-xs text-center text-rose-500"
               style={{ "--value": carb }}
@@ -262,7 +262,7 @@ function AddCustomFoodModal({
 
     const inputs = document.querySelectorAll("input");
     inputs.forEach(input => (input.value = ""));
-    inputs.forEach(input => (input.classList.remove("input-success")));
+    inputs.forEach(input => input.classList.remove("input-success"));
 
     const newConsumedCalories = {
       goal: consumedCalories.goal,
@@ -346,13 +346,14 @@ function AddCustomFoodModal({
           </div>
 
           <button
-            className="btn"
-            onClick={(e) => {
+            className="btn mt-4"
+            onClick={e => {
               addFood(e, foodInfo, title);
             }}
           >
             Add to {title}
           </button>
+          <div className="divider"></div>
         </form>
         <div className="grid grid-cols-2 place-items-center sm:flex sm:justify-evenly">
           <div

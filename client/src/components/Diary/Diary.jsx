@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -19,6 +20,7 @@ function Diary() {
   const [date, setDate] = useState(getCurrentDate());
   const [calorieData, setCalorieData] = useState({ goal: 0, consumed: 0 });
   const titles = ["Breakfast", "Lunch", "Dinner", "Snacks"];
+  const [loadedGoal, setLoadedGoal] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,16 +37,20 @@ function Diary() {
       setUserFoodArr,
     ).then(val => {
       val === undefined ? navigate("/") : "";
+      if (!loadedGoal) {
+        // only pull goal when it hasnt already been loaded before
+        getCalorieGoal(Cookies.get("userid")).then(value => {
+          const consumed = document.getElementById("consumed").innerText;
+          const newCalorieData = {
+            goal: value,
+            consumed: parseInt(consumed),
+          };
+          setCalorieData(newCalorieData);
+        });
+        setLoadedGoal(true);
+      }
     });
   }, [navigate, date]);
-
-  useEffect(() => {
-    getCalorieGoal(Cookies.get("userid")).then(value => {
-      const newCalorieData = { ...calorieData };
-      newCalorieData.goal = value;
-      setCalorieData(newCalorieData);
-    });
-  }, []);
 
   return (
     <div>
