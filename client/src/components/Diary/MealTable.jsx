@@ -225,7 +225,6 @@ function AddCustomFoodModal({
     };
     const mealIndex = mealsMap[mealName];
 
-    console.log(foodInfo);
     if (foodInfo.servings <= 0) {
       e.preventDefault();
       alert("Enter a serving amount >= 1");
@@ -242,7 +241,6 @@ function AddCustomFoodModal({
       calories: cal * foodInfo.servings,
       createdAt: date,
     };
-    console.log(entryInput);
     const newFood = await createEntry(entryInput);
 
     if (!newUserFoodArr[mealIndex]) {
@@ -272,6 +270,17 @@ function AddCustomFoodModal({
     updateCal(0);
   }
 
+  const inputNames = [
+    "Food Name",
+    "Carbohydrates (grams)",
+    "Fat (grams)",
+    "Protein (grams)",
+    "Servings",
+  ];
+  const inputMacros = ["name", "carb", "fat", "protein", "servings"];
+  const inputType = ["text", "number", "number", "number", "number"];
+  const inputPlaceholder = ["Type here", 0, 0, 0, 1];
+
   return (
     <dialog id={`my_modal_${title}`} className="modal">
       <div className="modal-box h-screen">
@@ -284,66 +293,22 @@ function AddCustomFoodModal({
 
         <h3 className="font-bold text-lg">Add {title} Food</h3>
         <form method="dialog">
-          <div className="form-control w-full max-w-xs">
-            <label className="label">
-              <span className="label-text">Food Name</span>
-            </label>
-            <input
-              type="text"
-              placeholder="Type here"
-              className="input input-bordered w-full max-w-xs"
-              onInput={e => updateFood(e.target.value, "name", e.target)}
-            />
-          </div>
-
-          <div className="form-control w-full max-w-xs">
-            <label className="label">
-              <span className="label-text">Carbohydrates (grams)</span>
-            </label>
-            <input
-              type="number"
-              placeholder="0"
-              className="input input-bordered w-full max-w-xs"
-              onInput={e => updateFood(e.target.value, "carb", e.target)}
-            />
-          </div>
-
-          <div className="form-control w-full max-w-xs">
-            <label className="label">
-              <span className="label-text">Fat (grams)</span>
-            </label>
-            <input
-              type="number"
-              placeholder="0"
-              className="input input-bordered w-full max-w-xs"
-              onInput={e => updateFood(e.target.value, "fat", e.target)}
-            />
-          </div>
-
-          <div className="form-control w-full max-w-xs">
-            <label className="label">
-              <span className="label-text">Protein (grams)</span>
-            </label>
-            <input
-              type="number"
-              placeholder="0"
-              className="input input-bordered w-full max-w-xs"
-              onInput={e => updateFood(e.target.value, "protein", e.target)}
-            />
-          </div>
-
-          <div className="form-control w-full max-w-xs">
-            <label className="label">
-              <span className="label-text">Servings</span>
-            </label>
-            <input
-              type="number"
-              placeholder="1"
-              defaultValue={1}
-              className="input input-bordered w-full max-w-xs"
-              onInput={e => updateFood(e.target.value, "servings", e.target)}
-            />
-          </div>
+          {inputNames.map((inputName, index) => (
+            <div className="form-control w-full max-w-xs" key={index}>
+              <label className="label">
+                <span className="label-text">{inputName}</span>
+              </label>
+              <input
+                type={inputType[index]}
+                step="any"
+                placeholder={inputPlaceholder[index]}
+                className="input input-bordered w-full max-w-xs"
+                onInput={e =>
+                  updateFood(e.target.value, inputMacros[index], e.target)
+                }
+              />
+            </div>
+          ))}
 
           <button
             className="btn mt-4"
