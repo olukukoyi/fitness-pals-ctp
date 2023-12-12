@@ -30,7 +30,10 @@ function BlogNav() {
             {topics.map(item => {
               return (
                 <li key={item}>
-                  <Link to={`/blog/${item}`} className="ghost mb-2 lg:mb-0">
+                  <Link
+                    to={`/blog/${item}-feed`}
+                    className="ghost mb-2 lg:mb-0"
+                  >
                     {item}
                   </Link>
                 </li>
