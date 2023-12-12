@@ -1,55 +1,95 @@
 import { useState } from "react";
+import ResultCard from "./ResultCard";
 
 const CalorieCalculator = () => {
   const [weight, setWeight] = useState("");
   const [feet, setFeet] = useState("");
   const [inches, setInches] = useState("");
-  const [age, setAge] = useState("");
+  const [age, setAge] = useState("");//
   const [gender, setGender] = useState("male");
   const [activityLevel, setActivityLevel] = useState("");
-  const [caloriesResult, setCaloriesResult] = useState(null);
+  const [goal, setGoal] = useState('maintain');
+  const [caloriesResult, setCaloriesResult] = useState(null);//result for daily calories
+  const [validationMessage, setValidationMessage] = useState("");//error handling
+
+  const [result, setResult] = useState(null);//
+  const [isResultCardOpen, setIsResultCardOpen] = useState(false);//
 
   const calculateCalories = () => {
-    const bmiMap = {
-      placeholders: "Please fill all boxes with the appropriate info",
-    };
 
-    // if(weight===null || isNaN(weight)
-    // || feet===null || isNaN(feet)
-    // || inches===null || isNaN(inches)
-    // || age===null || isNaN(age)
-    // || activityLevel==="placeholder")
-    // {
-    //   let resultMessage ="Please fill all boxes with the appropriate info";
-    // }
-    const heightInInches = feet * 12 + inches;
+    if(weight==="" || isNaN(weight)//error handling
+    || feet==="" || isNaN(feet)
+    || inches==="" || isNaN(inches)
+    || age==="" || isNaN(age)
+    || activityLevel==="placeholder"
+    || goal === 'placeholder')
+    {
+      setValidationMessage("Please fill all boxes with the appropriate info");//sets the error message
+      setCaloriesResult(null);//sets calorie result to null
+      return;
+    }
+    const heightInInches = feet * 12 + parseInt(inches); 
     let bmr; //basal metabolic rate
 
-    if (gender === "male") {
-      bmr = 66 + 6.23 * weight + 12.7 * heightInInches - 6.8 * age;
+    if (gender === "male") {//calculate for genders
+      bmr = 66 + (6.23 * weight) + (12.7 * heightInInches) - (6.8 * age);
     } else {
       bmr = 655 + 4.35 * weight + 4.7 * heightInInches - 4.7 * age;
     }
 
-    // Adjust for activity level
+    let activityMultiplier;
     switch (activityLevel) {
-      case "sedentary":
-        setCaloriesResult(bmr * 1.2);
+      case 'sedentary':
+        activityMultiplier = 1.2;
         break;
-      case "lightlyActive":
-        setCaloriesResult(bmr * 1.375);
+      case 'lightlyActive':
+        activityMultiplier = 1.375;
         break;
-      case "moderatelyActive":
-        setCaloriesResult(bmr * 1.55);
+      case 'moderatelyActive':
+        activityMultiplier = 1.55;
         break;
-      case "veryActive":
-        setCaloriesResult(bmr * 1.725);
+      case 'veryActive':
+        activityMultiplier = 1.725;
         break;
       default:
-        setCaloriesResult(null);
+        activityMultiplier = 1;
     }
+
+    // Adjust for goal
+    let goalMultiplier;
+    switch (goal) {
+      case 'lose':
+        goalMultiplier = 0.8;
+        break;
+      case 'maintain':
+        goalMultiplier = 1;
+        break;
+      case 'gain':
+        goalMultiplier = 1.2;
+        break;
+      default:
+        goalMultiplier = 1;
+    }
+
+    const estimatedCalories = bmr * activityMultiplier * goalMultiplier;
+
+    setCaloriesResult(estimatedCalories);
+    let resultMessage =
+      "Your estimated daily calorie goal is " +
+      estimatedCalories.toFixed(0);
+      console.log(estimatedCalories , " ahhhhhhhhh");
+    setResult(resultMessage);
+    setIsResultCardOpen(true);
+    setValidationMessage(null);//reset error message
   };
-  const ageOptions = Array.from({ length: 100 }, (_, i) => i + 1);
+
+  const closeResultCard = () => {//
+    setWeight("");
+    setFeet("");
+    setInches("");
+    setIsResultCardOpen(false);
+    setAge("");
+  };
 
   return (
     <div className="border-2 border-gray-400 container-lg w-full mx-auto my-8 p-6 rounded-md shadow-md">
@@ -158,7 +198,7 @@ const CalorieCalculator = () => {
             <input
               type="number"
               id="age"
-              min="0"
+              min="1"
               max="90"
               value={age}
               onChange={e => setAge(e.target.value)}
@@ -185,7 +225,7 @@ const CalorieCalculator = () => {
                 console.log(e.target.value);
               }}
             >
-              <option value="placeholder">Choose activity level</option>
+              <option value="placeholder" disabled>Choose activity level</option>
               <option value="sedentary">
                 Sedentary (little or no exercise)
               </option>
@@ -198,32 +238,59 @@ const CalorieCalculator = () => {
               <option value="veryActive">
                 Very Active (hard exercise/sports 6-7 days a week)
               </option>
-              <option value="superActive">
-                Super Active (very hard exercise/sports & physical job or 2x
-                training)
-              </option>
             </select>
           </label>
+        </div>
+
+        {/* Goal dropdown */}
+        <div className="mb-4 col-span-2">
+          <label htmlFor="goal" className="block text-sm font-medium text-gray-600">
+            Goal:
+          </label>
+          <select
+            id="goal"
+            value={goal}
+            onChange={(e) => setGoal(e.target.value)}
+            className="form-select mt-1 block w-full border-2 border-gray-300 rounded-md p-2"
+          >
+            <option value="placeholder" disabled>
+              Select goal
+            </option>
+            <option value="lose">Lose Weight</option>
+            <option value="maintain">Maintain Weight</option>
+            <option value="gain">Gain Muscle</option>
+          </select>
         </div>
 
         {/*BUTTON*/}
         <button
           type="button"
           onClick={calculateCalories}
-          className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300"
+          className="btn-primary text-white py-2 px-4 rounded-md transition duration-300"
         >
           Calculate Calories
         </button>
       </form>
 
-      {caloriesResult !== null && (
+      {/* {RESULTS DISPLAY} */}
+
+      {validationMessage && ( //Displays error handling message
+        <div className="text-red-500 mt-2">{validationMessage}</div>
+      )}
+
+      {/* {RESULTS DISPLAY in result card} */}
+      {isResultCardOpen && (
+        <ResultCard result={result} onClose={closeResultCard} />
+      )}
+
+      {/* {caloriesResult !== null && ( //Displays result
         <div className="mt-4 p-4 bg-green-100 rounded-md">
           <p className="text-green-700">
-            Estimated Daily Calories: {caloriesResult.toFixed(2)}
+            Estimated Daily Calories: {caloriesResult.toFixed(0)}
           </p>
-          {/*OUTPUT*/}
         </div>
-      )}
+      )} */}
+
     </div>
   );
 };

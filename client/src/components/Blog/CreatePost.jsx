@@ -6,7 +6,7 @@ function CreatePost() {
   const topicInput = useRef("");
   const contentInput = useRef("");
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     const title = titleInput.current.value;
     const topic = topicInput.current.value;
@@ -40,15 +40,14 @@ function CreatePost() {
         placeholder="Topic"
         className="input input-bordered w-full max-w-xs"
       />
-
       <textarea
         ref={contentInput}
         className="textarea textarea-bordered"
         placeholder="Content"
       ></textarea>
       <button
-        className="btn"
-        onClick={(e) => {
+        className="btn btn-primary"
+        onClick={e => {
           handleSubmit(e);
         }}
       >

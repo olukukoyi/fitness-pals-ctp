@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import PostCard from "./PostCard";
 import CreatePost from "./CreatePost";
-import BlogNav from "./BlogNav";
 
 function Advancedfeed() {
   const [feed, setFeed] = useState();
@@ -21,20 +20,47 @@ function Advancedfeed() {
   }, []);
 
   return (
-    <div className=" w-full h-screen flex items-center justify-center flex-col space-y-5">
-      <div className="flex justify-evenly w-full">
-        <div className=" w-[25%] h-screen">
-          <BlogNav />
-        </div>
+    <div className="flex flex-col items-center">
+      {/* ADVANCEDFEED POSTS */}
+      <div className="flex flex-col items-center w-full mt-4">
         <div>
-          <h1 className="font-bold text-[50px] underline">Advanced Feed </h1>{" "}
-          {feed?.map(item => {
-            return <PostCard key={item.id} item={item} />;
-          })}
-        </div>
-        <div className="flex flex-col">
-          <h1 className="font-bold text-[50px] underline"> add new post</h1>
-          <CreatePost />
+          <div className="flex justify-evenly items-center">
+            <h1 className=" text-center font-bold text-3xl underline">
+              Advanced Feed{" "}
+            </h1>
+
+            {/* MODAL BUTTON */}
+            <button
+              className="btn btn-nuetral"
+              onClick={() => document.getElementById("my_modal_1").showModal()}
+            >
+              Create new post
+            </button>
+
+            <dialog id="my_modal_1" className="modal">
+              <div className="modal-box">
+                <form method="dialog">
+                  {/* if there is a button in form, it will close the modal */}
+                  <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                    ✕
+                  </button>
+                </form>
+
+                <h3 className="font-bold text-lg">Create Post:</h3>
+                {/* <p className="py-4">Press ESC key or click on ✕ button to close</p> */}
+                <CreatePost />
+              </div>
+            </dialog>
+          </div>
+
+          <div className="divider"></div>
+
+          <div className="w-screen flex flex-col items-center lg:grid lg:grid-cols-2 lg:gap-x-5 lg:place-items-center lg:gap-y-5">
+            {/*style around each post card?*/}
+            {feed?.map(item => {
+              return <PostCard key={item.id} item={item} />;
+            })}
+          </div>
         </div>
       </div>
     </div>

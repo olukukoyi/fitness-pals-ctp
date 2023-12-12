@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { useState } from "react"; //to do: add link to an article in result card!!!
 import ResultCard from "./ResultCard";
 
 const BmiCalculator = () => {
   const [weight, setWeight] = useState("");
   const [feet, setFeet] = useState("");
   const [inches, setInches] = useState("");
-  const [result, setResult] = useState(null);
-  const [isResultCardOpen, setIsResultCardOpen] = useState(false);
+  const [result, setResult] = useState(null); //
+  const [isResultCardOpen, setIsResultCardOpen] = useState(false); //
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -24,7 +24,7 @@ const BmiCalculator = () => {
     }
     calculateBmi();
 
-    setIsResultCardOpen(true);
+    setIsResultCardOpen(true); //
   };
 
   const calculateBmi = () => {
@@ -52,11 +52,14 @@ const BmiCalculator = () => {
       " and your bmi category is falls in " +
       bmiCategory;
     const additionalMessage =
-      " Here is an article to tell you about bmi and your category ";
-    setResult(resultMessage + additionalMessage);
+      " . Here is an article to tell you about BMI and your category. " +
+      '<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4890841/" target="_blank" rel="noopener noreferrer" style="color: blue;">Learn more</a>';
+
+    setResult(resultMessage + additionalMessage); //
   };
 
   const closeResultCard = () => {
+    //
     setWeight("");
     setFeet("");
     setInches("");
@@ -115,7 +118,7 @@ const BmiCalculator = () => {
         </div>
         <button
           type="submit"
-          className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300"
+          className="btn-primary text-white py-2 px-4 rounded-md transition duration-300"
         >
           Calculate BMI
         </button>

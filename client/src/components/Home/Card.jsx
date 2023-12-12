@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 
 function Card( props ) {
   return (
@@ -8,7 +9,10 @@ function Card( props ) {
         <h2 className="card-title">{props.title}</h2>
         <p>{props.description}</p>
         <div className="card-actions justify-end">
+          {/* Use Link component to navigate to other pages */}
+          <Link to={props.linkTo}>
             <button className="btn btn-primary">Go</button>
+          </Link>
         </div>
         </div>
     </div>
