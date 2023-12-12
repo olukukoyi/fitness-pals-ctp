@@ -3,13 +3,7 @@ import { Link } from "react-router-dom";
 
 function BlogNav() {
   //blog nav bar
-  const topics = [
-    "Storytime-Feed",
-    "Progress-Feed",
-    "Beginner-Feed",
-    "Advanced-Feed",
-    "OffTopic-Feed",
-  ];
+  const topics = ["storytime", "progress", "beginner", "advanced", "offtopic"];
   return (
     //*Make sure that the flex works correctly when the page is shrunk */}
 
@@ -19,7 +13,7 @@ function BlogNav() {
           return (
             <Link
               key={item}
-              to={`/blog/${item}`}
+              to={`/blog/${item}-feed`}
               className="btn btn-secondary ghost mb-2 lg:mb-0"
             >
               {item}

@@ -1,18 +1,21 @@
 import Cookies from "js-cookie";
 import { useRef } from "react";
+import PropTypes from "prop-types";
 
-function CreatePost() {
+function CreatePost({ topic }) {
   const titleInput = useRef("");
-  const topicInput = useRef("");
   const contentInput = useRef("");
 
   const handleSubmit = async e => {
     e.preventDefault();
     const title = titleInput.current.value;
-    const topic = topicInput.current.value;
     const body = contentInput.current.value;
     const ownerId = Cookies.get("userid");
     const form = { title, topic, body, ownerId };
+
+    if (title === "" || body === "") {
+      return;
+    }
 
     const res = await fetch("http://localhost:8001/posts/add-post", {
       method: "POST",
@@ -25,6 +28,7 @@ function CreatePost() {
     });
     const data = res.json();
     console.log(data);
+    window.location.reload();
   };
   return (
     <form className="flex flex-col space-y-5">
@@ -32,12 +36,6 @@ function CreatePost() {
         type="text"
         ref={titleInput}
         placeholder="Title"
-        className="input input-bordered w-full max-w-xs"
-      />
-      <input
-        ref={topicInput}
-        type="text"
-        placeholder="Topic"
         className="input input-bordered w-full max-w-xs"
       />
       <textarea
@@ -56,5 +54,9 @@ function CreatePost() {
     </form>
   );
 }
+
+CreatePost.propTypes = {
+  topic: PropTypes.string.isRequired,
+};
 
 export default CreatePost;
