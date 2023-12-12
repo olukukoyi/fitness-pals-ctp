@@ -13,40 +13,71 @@ const fetchAllDiaries = async (req, res) => {
 
 const createDiaryEntry = async (req, res) => {
   try {
-    const { calories, carb, fat, mealType, name, protein, servings, userId } =
-      req.body;
+    const {
+      calories,
+      carb,
+      fat,
+      mealType,
+      name,
+      protein,
+      servings,
+      userId,
+      createdAt,
+    } = req.body;
     console.log("RUNNING?");
-    console.log(calories, carb, fat, mealType, name, protein, servings, userId);
+    // console.log(calories, carb, fat, mealType, name, protein, servings, userId);
 
-    const newEntry = await prisma.diary.create({
-      data: {
-        calories,
-        carb,
-        fat,
-        mealType,
-        name,
-        protein,
-        servings,
-        userUserId: userId,
-      },
-    });
-
-    res.json({ newEntry: newEntry });
+    if (createdAt !== null) {
+      // if date was passed in , create diary with date
+      const recievedDate = new Date(createdAt);
+      const newEntry = await prisma.diary.create({
+        data: {
+          calories,
+          carb,
+          fat,
+          mealType,
+          name,
+          protein,
+          servings,
+          userUserId: userId,
+          createdAt: recievedDate,
+        },
+      });
+      res.json({ newEntry: newEntry });
+    } else {
+      // if it is null , make a req without the date
+      const newEntry = await prisma.diary.create({
+        data: {
+          calories,
+          carb,
+          fat,
+          mealType,
+          name,
+          protein,
+          servings,
+          userUserId: userId,
+        },
+      });
+      res.json({ newEntry: newEntry });
+    }
   } catch (error) {
     console.log(error);
   }
 };
 
 const deleteDiary = async (req, res) => {
-  const id = req.parms.id;
+  const id = req.body.id;
 
-  const deletedDiary = await prisma.diary.delete({
-    where: {
-      id: id,
-    },
-  });
-
-  res.json({ deletedDiary: deletedDiary });
+  try {
+    const deletedDiary = await prisma.diary.delete({
+      where: {
+        id: id,
+      },
+    });
+    res.json({ deletedDiary: deletedDiary });
+  } catch (err) {
+    res.json({ error: err });
+  }
 };
 
 const diaryRoutes = {

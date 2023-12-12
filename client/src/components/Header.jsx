@@ -6,11 +6,21 @@ import profileIcon from "./assets/no-profile-picture.png";
 import Cookies from "js-cookie";
 
 function Header() {
+  const LogOut = () => {
+    Cookies.remove("accessToken");
+    console.log("user Logged out");
+
+    Cookies.remove("accessToken");
+    Cookies.remove("userid");
+
+    window.location = "/";
+    // YOU MUST REDIRECT REFRESH PAGE / REDIRECT USER
+  };
   // pulls userid and renders on if cookie exists
   const userid = Cookies.get("userid");
   if (userid !== undefined) {
     return (
-      <div className="navbar bg-base-100">
+      <div className="navbar bg-base-100 overflow-hidden">
         <div className="flex-1">
           <Link to={"/"} className="btn btn-ghost">
             Home
@@ -42,7 +52,13 @@ function Header() {
               <a>Settings</a>
             </li>
             <li>
-              <a>Logout</a>
+              <a
+                onClick={() => {
+                  LogOut();
+                }}
+              >
+                Logout
+              </a>
             </li>
           </ul>
         </div>

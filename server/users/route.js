@@ -15,17 +15,43 @@ const getUserDetails = async (req, res) => {
       userId: true,
       name: true,
       password: false,
-      Comments: true,
+      tagged: true,
+      comments: true,
       Dairy: true,
       Measurements: true,
       Posts: true,
       workouts: true,
+      calGoal: true,
     },
   });
   console.log(userDetails);
   return res.json({ user: userDetails });
 };
 
-const userRoutes = { getUserDetails };
+const updateCalGoal = async (req, res) => {
+  const { id, goal } = req.body;
+  console.log(id, goal);
+  const updatedUser = await prisma.user.update({
+    where: {
+      userId: id,
+    },
+    data: {
+      calGoal: goal,
+    },
+    select: {
+      password: false,
+      userId: true,
+      email: true,
+      name: true,
+      calGoal: true,
+    },
+  });
+
+  res.json({
+    updatedUser: updatedUser,
+  });
+};
+
+const userRoutes = { getUserDetails, updateCalGoal };
 
 module.exports = userRoutes;
