@@ -44,7 +44,7 @@ function Test() {
   async function pullDiary() {
     const userid = Cookies.get("userid");
     const data = await fetch(
-      `http://localhost:8001/diary/${userid}`
+      `http://localhost:8001/diary/${userid}`,
       //  {
       //   credentials: "include",
       // }

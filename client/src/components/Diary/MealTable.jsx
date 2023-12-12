@@ -1,7 +1,19 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 
-function MealTable({ title, foodArr, userFoodArr, setUserFoodArr }) {
+import { createEntry, deleteEntry } from "./DataBaseFunc";
+
+import trashcan from "../assets/trash-can.svg";
+
+function MealTable({
+  title,
+  foodArr,
+  userFoodArr,
+  setUserFoodArr,
+  calories,
+  date,
+  setCalories,
+}) {
   return (
     <ul className="menu bg-base-200 p-0 [&_li>*]:rounded-none">
       <li className="menu-title">{title}</li>
@@ -36,6 +48,10 @@ function MealTable({ title, foodArr, userFoodArr, setUserFoodArr }) {
                 )
           }
           servings={foodObj.servings}
+          userFoodArr={userFoodArr}
+          setUserFoodArr={setUserFoodArr}
+          consumedCalories={calories}
+          setConsumedCalories={setCalories}
           key={index}
         />
       ))}
@@ -53,12 +69,27 @@ function MealTable({ title, foodArr, userFoodArr, setUserFoodArr }) {
         title={title}
         userFoodArr={userFoodArr}
         setUserFoodArr={setUserFoodArr}
+        consumedCalories={calories}
+        date={date}
+        setConsumedCalories={setCalories}
       />
     </ul>
   );
 }
 
-function FoodTableItem({ name, id, cal, carb, protein, fat, servings }) {
+function FoodTableItem({
+  name,
+  id,
+  cal,
+  carb,
+  protein,
+  fat,
+  servings,
+  userFoodArr,
+  setUserFoodArr,
+  consumedCalories,
+  setConsumedCalories,
+}) {
   return (
     <>
       <div className="divider m-0"></div>
@@ -74,7 +105,7 @@ function FoodTableItem({ name, id, cal, carb, protein, fat, servings }) {
         </div>
       </li>
       <dialog id={`my_modal_${id}`} className="modal">
-        <div className="modal-box h-screen">
+        <div className="modal-box">
           <form method="dialog">
             {/* if there is a button in form, it will close the modal */}
             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
@@ -82,11 +113,10 @@ function FoodTableItem({ name, id, cal, carb, protein, fat, servings }) {
             </button>
           </form>
 
-          <h3 className="font-bold text-lg">
-            {name} {id}
-          </h3>
-          <p className="py-4">Press ESC key or click on ✕ button to close</p>
-          <div className="flex justify-evenly">
+          <h3 className="font-bold text-lg">{name}</h3>
+          <h2>id: {id}</h2>
+          <div className="divider"></div>
+          <div className="grid grid-cols-2 place-items-center gap-y-5">
             <div
               className="radial-progress text-xs text-center text-rose-500"
               style={{ "--value": carb }}
@@ -117,13 +147,37 @@ function FoodTableItem({ name, id, cal, carb, protein, fat, servings }) {
               Calories <br /> {cal}
             </div>
           </div>
+          <div className="divider"></div>
+          <form method="dialog" className="flex justify-center">
+            <button
+              className="btn btn-error"
+              onClick={() => {
+                deleteEntry(userFoodArr, setUserFoodArr, id);
+                const newConsumedCalories = {
+                  goal: consumedCalories.goal,
+                  consumed: consumedCalories.consumed - cal,
+                };
+                setConsumedCalories(newConsumedCalories);
+              }}
+            >
+              <img src={trashcan} alt="x" className="h-6 w-6" />
+              Delete Item
+            </button>
+          </form>
         </div>
       </dialog>
     </>
   );
 }
 
-function AddCustomFoodModal({ title, userFoodArr, setUserFoodArr }) {
+function AddCustomFoodModal({
+  title,
+  date,
+  userFoodArr,
+  setUserFoodArr,
+  consumedCalories,
+  setConsumedCalories,
+}) {
   const [foodInfo, updateFoodInfo] = useState({
     name: "",
     carb: 0,
@@ -160,7 +214,9 @@ function AddCustomFoodModal({ title, userFoodArr, setUserFoodArr }) {
     updateCal(Math.floor(temp.carb * 4 + temp.fat * 9 + temp.protein * 4));
   }
 
-  function addFood(foodInfo, mealName) {
+  async function addFood(e, foodInfo, mealName) {
+    // all foodInfo needs is userId and calories to be part of it
+
     const mealsMap = {
       Breakfast: 0,
       Lunch: 1,
@@ -169,27 +225,29 @@ function AddCustomFoodModal({ title, userFoodArr, setUserFoodArr }) {
     };
     const mealIndex = mealsMap[mealName];
 
-    console.log(foodInfo);
     if (foodInfo.servings <= 0) {
+      e.preventDefault();
       alert("Enter a serving amount >= 1");
       return;
     } else if (foodInfo.name === "") {
+      e.preventDefault();
       alert("Enter a food name of length >= 1");
       return;
     }
 
     const newUserFoodArr = [...userFoodArr];
-    const newFood = {
+    const entryInput = {
       ...foodInfo,
       calories: cal * foodInfo.servings,
-      id: `${Math.floor(Math.random() * 9999)}`,
+      createdAt: date,
     };
+    const newFood = await createEntry(entryInput);
+
     if (!newUserFoodArr[mealIndex]) {
       newUserFoodArr[mealIndex] = []; // Initialize the array if it doesn't exist
     }
     newUserFoodArr[mealIndex].push(newFood);
 
-    console.log(newUserFoodArr[mealIndex]);
     setUserFoodArr(newUserFoodArr); // Update the state with the new array
     updateFoodInfo({
       name: "",
@@ -202,8 +260,26 @@ function AddCustomFoodModal({ title, userFoodArr, setUserFoodArr }) {
 
     const inputs = document.querySelectorAll("input");
     inputs.forEach(input => (input.value = ""));
-    console.log(document.getElementById(`my_modal_${title}`));
+    inputs.forEach(input => input.classList.remove("input-success"));
+
+    const newConsumedCalories = {
+      goal: consumedCalories.goal,
+      consumed: consumedCalories.consumed + cal,
+    };
+    setConsumedCalories(newConsumedCalories);
+    updateCal(0);
   }
+
+  const inputNames = [
+    "Food Name",
+    "Carbohydrates (grams)",
+    "Fat (grams)",
+    "Protein (grams)",
+    "Servings",
+  ];
+  const inputMacros = ["name", "carb", "fat", "protein", "servings"];
+  const inputType = ["text", "number", "number", "number", "number"];
+  const inputPlaceholder = ["Type here", 0, 0, 0, 1];
 
   return (
     <dialog id={`my_modal_${title}`} className="modal">
@@ -217,75 +293,32 @@ function AddCustomFoodModal({ title, userFoodArr, setUserFoodArr }) {
 
         <h3 className="font-bold text-lg">Add {title} Food</h3>
         <form method="dialog">
-          <div className="form-control w-full max-w-xs">
-            <label className="label">
-              <span className="label-text">Food Name</span>
-            </label>
-            <input
-              type="text"
-              placeholder="Type here"
-              className="input input-bordered w-full max-w-xs"
-              onInput={e => updateFood(e.target.value, "name", e.target)}
-            />
-          </div>
-
-          <div className="form-control w-full max-w-xs">
-            <label className="label">
-              <span className="label-text">Carbohydrates (grams)</span>
-            </label>
-            <input
-              type="number"
-              placeholder="0"
-              className="input input-bordered w-full max-w-xs"
-              onInput={e => updateFood(e.target.value, "carb", e.target)}
-            />
-          </div>
-
-          <div className="form-control w-full max-w-xs">
-            <label className="label">
-              <span className="label-text">Fat (grams)</span>
-            </label>
-            <input
-              type="number"
-              placeholder="0"
-              className="input input-bordered w-full max-w-xs"
-              onInput={e => updateFood(e.target.value, "fat", e.target)}
-            />
-          </div>
-
-          <div className="form-control w-full max-w-xs">
-            <label className="label">
-              <span className="label-text">Protein (grams)</span>
-            </label>
-            <input
-              type="number"
-              placeholder="0"
-              className="input input-bordered w-full max-w-xs"
-              onInput={e => updateFood(e.target.value, "protein", e.target)}
-            />
-          </div>
-
-          <div className="form-control w-full max-w-xs">
-            <label className="label">
-              <span className="label-text">Servings</span>
-            </label>
-            <input
-              type="number"
-              placeholder="1"
-              defaultValue={1}
-              className="input input-bordered w-full max-w-xs"
-              onInput={e => updateFood(e.target.value, "servings", e.target)}
-            />
-          </div>
+          {inputNames.map((inputName, index) => (
+            <div className="form-control w-full max-w-xs" key={index}>
+              <label className="label">
+                <span className="label-text">{inputName}</span>
+              </label>
+              <input
+                type={inputType[index]}
+                step="any"
+                placeholder={inputPlaceholder[index]}
+                className="input input-bordered w-full max-w-xs"
+                onInput={e =>
+                  updateFood(e.target.value, inputMacros[index], e.target)
+                }
+              />
+            </div>
+          ))}
 
           <button
-            className="btn"
-            onClick={() => {
-              addFood(foodInfo, title);
+            className="btn mt-4"
+            onClick={e => {
+              addFood(e, foodInfo, title);
             }}
           >
             Add to {title}
           </button>
+          <div className="divider"></div>
         </form>
         <div className="grid grid-cols-2 place-items-center sm:flex sm:justify-evenly">
           <div
@@ -340,15 +373,21 @@ function AddCustomFoodModal({ title, userFoodArr, setUserFoodArr }) {
 
 AddCustomFoodModal.propTypes = {
   title: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
   userFoodArr: PropTypes.array.isRequired,
   setUserFoodArr: PropTypes.func.isRequired,
+  consumedCalories: PropTypes.object.isRequired,
+  setConsumedCalories: PropTypes.func.isRequired,
 };
 
 MealTable.propTypes = {
   title: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
   foodArr: PropTypes.array.isRequired,
   userFoodArr: PropTypes.array.isRequired,
   setUserFoodArr: PropTypes.func.isRequired,
+  calories: PropTypes.object.isRequired,
+  setCalories: PropTypes.func.isRequired,
 };
 
 FoodTableItem.propTypes = {
@@ -359,6 +398,10 @@ FoodTableItem.propTypes = {
   fat: PropTypes.number.isRequired,
   protein: PropTypes.number.isRequired,
   servings: PropTypes.number.isRequired,
+  userFoodArr: PropTypes.array.isRequired,
+  setUserFoodArr: PropTypes.func.isRequired,
+  consumedCalories: PropTypes.object.isRequired,
+  setConsumedCalories: PropTypes.func.isRequired,
 };
 
 export default MealTable;
