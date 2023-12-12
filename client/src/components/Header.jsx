@@ -20,7 +20,7 @@ function Header() {
   const userid = Cookies.get("userid");
   if (userid !== undefined) {
     return (
-      <div className="navbar bg-primary text-primary-content">
+      <div className="navbar bg-primary text-white">
         <div className="flex-1 flex justify-evenly">
           <Link to={"/"} className="btn btn-ghost">
             Home
@@ -35,7 +35,7 @@ function Header() {
             Measure
           </Link>
         </div>
-        <div className="dropdown dropdown-end flex-none">
+        <div className="dropdown dropdown-end flex-none text-black dark:text-white">
           <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
             <div className="w-10 rounded-full">
               <img alt="Profile" src={profileIcon} />

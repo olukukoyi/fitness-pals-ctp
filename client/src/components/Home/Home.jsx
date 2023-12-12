@@ -1,10 +1,21 @@
-import React from "react";
+/* eslint-disable react/no-unescaped-entities */
 import Card from "./Card";
 import pic1 from "../assets/pic1.jpg";
 import pic2 from "../assets/pic2.jpg";
 import pic3 from "../assets/pic3.jpg";
 
+import Cookies from "js-cookie";
+
 function Home() {
+  function getStarted() {
+    const userid = Cookies.get("userid");
+    if (userid === undefined) {
+      return;
+    } else {
+      window.location += "diary";
+    }
+  }
+
   return (
     // Need to add a hero picture for the Home Page
     <div className="Home">
@@ -15,7 +26,13 @@ function Home() {
             <p className="py-6">
               The only app you'll need, for all your gym essential needs
             </p>
-            <button className="btn btn-primary">Get Started</button>
+            <label
+              htmlFor="my_modal_5"
+              className="btn btn-primary"
+              onClick={getStarted}
+            >
+              Get Started
+            </label>
           </div>
         </div>
       </div>
