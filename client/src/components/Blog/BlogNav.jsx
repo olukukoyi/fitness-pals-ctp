@@ -13,10 +13,14 @@ function BlogNav() {
   return (
     //*Make sure that the flex works correctly when the page is shrunk */}
 
-    <div className="navbar bg-base-300 flex justify-evenly">
+    <div className="navbar bg-base-300 flex flex-col md:flex-row items-center justify-evenly">
       {topics.map(item => {
         return (
-          <Link key={item} to={`/blog/${item}`} className="btn">
+          <Link
+            key={item}
+            to={`/blog/${item}`}
+            className="btn ghost mb-2 lg:mb-0"
+          >
             {item}
           </Link>
         );

@@ -40,14 +40,13 @@ function CreatePost() {
         placeholder="Topic"
         className="input input-bordered w-full max-w-xs"
       />
-
       <textarea
         ref={contentInput}
         className="textarea textarea-bordered"
         placeholder="Content"
       ></textarea>
       <button
-        className="btn"
+        className="btn btn-primary"
         onClick={e => {
           handleSubmit(e);
         }}

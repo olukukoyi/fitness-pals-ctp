@@ -67,7 +67,14 @@ function Blog() {
         <p className="text-gray-600">
           Join our community and embark on a healthier lifestyle today!
         </p>
-        <button className="btn btn-primary mt-4">Join Now</button>
+
+        <div className="mt-12 text-center">
+          <img
+            src="/fitnesspals_Logo.png"
+            alt="FitnessPals Logo"
+            className="w-40 h-40 mx-auto rounded-full object-cover"
+          />
+        </div>
       </div>
     </div>
   );

@@ -52,7 +52,9 @@ const BmiCalculator = () => {
       " and your bmi category is falls in " +
       bmiCategory;
     const additionalMessage =
-      " Here is an article to tell you about bmi and your category ";
+      " . Here is an article to tell you about BMI and your category. " +
+      '<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4890841/" target="_blank" rel="noopener noreferrer" style="color: blue;">Learn more</a>';
+
     setResult(resultMessage + additionalMessage); //
   };
 
