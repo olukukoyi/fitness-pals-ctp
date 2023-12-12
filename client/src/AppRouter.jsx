@@ -1,4 +1,4 @@
-import { Route, Routes, BrowserRouter } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 import Home from "./components/Home/Home";
 import Diary from "./components/Diary/Diary";
@@ -16,10 +16,8 @@ function AppRouter() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/diary" element={<Diary />} />
-        <Route path="/dashboard" element={"dashboard component"} />
         <Route path="/measure" element={<Measure />} />
         <Route path="/test" element={<Test />} />
-        {/* <Route path="/user/:id" element={<UserDetails />} /> */}
 
         <Route path="/blog/*" element={<Blog />} />
         <Route path="*" element={<NotFound />} />
