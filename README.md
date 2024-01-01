@@ -1,6 +1,5 @@
 # FitnessPals
 
-## Description
 Welcome to FitnessPals, your ultimate one-stop-shop fitness application. Crafted meticulously by a team of dedicated CUNY students, FitnessPals offers an array of features designed for fitness enthusiasts and beginners alike. With a focus on user experience, our app boasts a responsive design and a beautiful user interface, ensuring a seamless experience on both desktop and mobile devices.
 
 Explore the app to track your fitness goals, interact with the community, and gain insights into your health metrics. FitnessPals is designed to be intuitive and user-friendly, allowing you to focus more on your fitness and less on navigating the app.
