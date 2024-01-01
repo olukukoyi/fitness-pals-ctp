@@ -19,7 +19,11 @@ app.use(
   cors({
     credentials: true,
     methods: ["GET", "POST", "DELETE", "PUT"],
-    origin: ["http://localhost:5173", "http://127.0.0.1:5173"],
+    origin: [
+      "http://localhost:5173",
+      "http://127.0.0.1:5173",
+      "https://fitness-pals.onrender.com/",
+    ],
   })
 );
 app.use(cookieParser());
