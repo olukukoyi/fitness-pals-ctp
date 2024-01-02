@@ -1,4 +1,4 @@
-<!-- # FitnessPals
+# FitnessPals
 
 Welcome to FitnessPals, your ultimate one-stop-shop fitness application. Crafted meticulously by a team of dedicated CUNY students, FitnessPals offers an array of features designed for fitness enthusiasts and beginners alike. With a focus on user experience, our app boasts a responsive design and a beautiful user interface, ensuring a seamless experience on both desktop and mobile devices.
 
@@ -44,4 +44,4 @@ For any inquiries or contributions, please contact:
     * Josh Katayev
     * Oluwanifesimi (Olu) Kukoyi
     *  Joan Guzman
-    *  Jan Adamez -->
+    *  Jan Adamez
